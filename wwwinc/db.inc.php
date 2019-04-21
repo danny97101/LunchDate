@@ -2,10 +2,10 @@
     require_once("../wwwinc/JWT.php");
 
     class db {
-        $DBUSER = "";
-        $DBPASS = "";
-        $DBNAME = "LunchDate";
-        $TOKENKEY = "our super secret server key"
+        const DBUSER = " ";
+        const DBPASS = " ";
+        const DBNAME = "LunchDate";
+        const TOKENKEY = "our super secret server key";
 
         protected function makeDBConnection(){
         $success = 0;
@@ -13,7 +13,7 @@
         while ($success == 0) {
         $mysqli = mysqli_init();
         //$mysqli->ssl_set(NULL,NULL, config::DBPEM, NULL,NULL);
-        $mysqli->real_connect("127.0.0.1", $DBUSER, $DBPASS, $DBNAME);
+        $mysqli->real_connect("127.0.0.1", self::DBUSER, self::DBPASS, self::DBNAME);
         if ($mysqli->connect_errno) {
             $tries += 1;
             error_log("Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error);
@@ -73,13 +73,13 @@
             return -1;
         }
         }
-        
+
         public function getToken($user) {
             $toEncode = array();
             $toEncode['username'] = $user["username"];
             $toEncode['valid_at'] = time();
-            $token = JWT::encode($toEncode, $TOKENKEY);
-            
+            $token = JWT::encode($toEncode, self::TOKENKEY);
+
             $mysqli = self::makeDBConnection();
             if (!($stmt = $mysqli->prepare("UPDATE `user` SET `token` = ? WHERE id = ?"))) {
                 error_log("Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error);
@@ -92,7 +92,7 @@
             }
             return $token;
         }
-        
+
         public function removeToken($user) {
             if (!($stmt = $mysqli->prepare("UPDATE `user` SET `token` = NULL WHERE id = ?"))) {
                 error_log("Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error);
@@ -104,7 +104,7 @@
                 error_log("Execute failed: (" . $stmt->errno . ") " . $stmt->error);
             }
         }
-        
+
         public function getUserByToken($token) {
             $mysqli = self::makeDBConnection();
             if (!($stmt = $mysqli->prepare("SELECT * FROM `user` WHERE token = ? ORDER BY `id` DESC"))) {
@@ -127,12 +127,12 @@
             } else {
                 return -1;
             }
-            
+
         }
-        
-        
+
+
     }
-    
-    
+
+
 
 ?>

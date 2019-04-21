@@ -1,7 +1,8 @@
 <?php
     require_once("../wwwinc/db.inc.php");
     $action = $_REQUEST["action"];
-    
+    echo $action;
+
     switch ($action) {
         case 'logout':
             $token = $_REQUEST["token"];
@@ -29,6 +30,6 @@
             $user['token'] = $token;
             echo json_encode($user);
             exit(0);
-            
+
     }
 ?>
