@@ -1,7 +1,6 @@
 <?php
     require_once("../wwwinc/db.inc.php");
     $action = $_REQUEST["action"];
-    echo $action;
 
     switch ($action) {
         case 'logout':
@@ -29,6 +28,12 @@
             $token = db::getToken($user);
             $user['token'] = $token;
             echo json_encode($user);
+            exit(0);
+        case 'checkToken':
+            $token = $_REQUEST["token"];
+            $ret = array();
+            $ret["user"] = db::getUserByToken($token);
+            echo json_encode($ret);
             exit(0);
 
     }
