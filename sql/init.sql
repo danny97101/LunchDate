@@ -6,6 +6,7 @@ CREATE TABLE user (
 	salt varchar(255) NOT NULL,
 	available_times varchar(255),
 	last_updated datetime,
+	token varchar(255),
 	PRIMARY KEY (id)
 );
 
