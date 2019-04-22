@@ -14,7 +14,7 @@
 		793B81B0226CF17E006A58EC /* HelveticaNowDisplayXBlk.otf in Resources */ = {isa = PBXBuildFile; fileRef = 793B81AF226CF17E006A58EC /* HelveticaNowDisplayXBlk.otf */; };
 		7942C3E4226D12C600C7E2F1 /* MainTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7942C3E3226D12C600C7E2F1 /* MainTabController.swift */; };
 		DE9F51DC2260E940006AC89D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE9F51DB2260E940006AC89D /* AppDelegate.swift */; };
-		DE9F51DE2260E940006AC89D /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE9F51DD2260E940006AC89D /* FirstViewController.swift */; };
+		DE9F51DE2260E940006AC89D /* CreateAccountController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE9F51DD2260E940006AC89D /* CreateAccountController.swift */; };
 		DE9F51E02260E940006AC89D /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE9F51DF2260E940006AC89D /* SecondViewController.swift */; };
 		DE9F51E32260E940006AC89D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DE9F51E12260E940006AC89D /* Main.storyboard */; };
 		DE9F51E52260E942006AC89D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DE9F51E42260E942006AC89D /* Assets.xcassets */; };
@@ -33,7 +33,7 @@
 		D2D41FDC3753A2501F23709E /* Pods-LunchDate.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LunchDate.debug.xcconfig"; path = "Target Support Files/Pods-LunchDate/Pods-LunchDate.debug.xcconfig"; sourceTree = "<group>"; };
 		DE9F51D82260E940006AC89D /* LunchDate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LunchDate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE9F51DB2260E940006AC89D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		DE9F51DD2260E940006AC89D /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
+		DE9F51DD2260E940006AC89D /* CreateAccountController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountController.swift; sourceTree = "<group>"; };
 		DE9F51DF2260E940006AC89D /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
 		DE9F51E22260E940006AC89D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DE9F51E42260E942006AC89D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -93,7 +93,7 @@
 			isa = PBXGroup;
 			children = (
 				DE9F51DB2260E940006AC89D /* AppDelegate.swift */,
-				DE9F51DD2260E940006AC89D /* FirstViewController.swift */,
+				DE9F51DD2260E940006AC89D /* CreateAccountController.swift */,
 				791AB520226CF9C700022681 /* WelcomeController.swift */,
 				DE9F51DF2260E940006AC89D /* SecondViewController.swift */,
 				DE9F51E12260E940006AC89D /* Main.storyboard */,
@@ -235,7 +235,7 @@
 				7942C3E4226D12C600C7E2F1 /* MainTabController.swift in Sources */,
 				791AB523226CFB1600022681 /* Config.swift in Sources */,
 				791AB521226CF9C700022681 /* WelcomeController.swift in Sources */,
-				DE9F51DE2260E940006AC89D /* FirstViewController.swift in Sources */,
+				DE9F51DE2260E940006AC89D /* CreateAccountController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

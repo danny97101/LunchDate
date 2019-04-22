@@ -127,7 +127,23 @@
             } else {
                 return -1;
             }
-
+        }
+        
+        public function getAllergens() {
+            $mysqli = self::makeDBConnection();
+            if (!($stmt = $mysqli->prepare("select * from allergen order by `name` asc"))) {
+                error_log("Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error);
+            }
+            if (!$stmt->execute()) {
+                error_log("Execute failed: (" . $stmt->errno . ") " . $stmt->error);
+            }
+            $result = $stmt->get_result();
+            $ret = array();
+            while ($row = $result->fetch_array(MYSQLI_ASSOC))
+            {
+                $ret[] = $row;
+            }
+            return $ret;
         }
 
 

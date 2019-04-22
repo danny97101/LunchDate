@@ -35,6 +35,10 @@
             $ret["user"] = db::getUserByToken($token);
             echo json_encode($ret);
             exit(0);
+        case 'getAllergens':
+            $ret = json_encode(db::getAllergens());
+            echo $ret;
+            exit(0);
 
     }
 ?>
