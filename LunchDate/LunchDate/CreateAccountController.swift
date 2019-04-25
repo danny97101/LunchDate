@@ -110,14 +110,38 @@ class CreateAccountController: UIViewController {
                         if let data = response.data, let responseString = String(data: data, encoding: .utf8) {
                             print(responseString)
                         }
+                        if response.response?.statusCode == 401 {
+                            let alert = UIAlertController(title: "Username Taken", message: "A user with that username already exists. Please try another username.", preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: "Retry", style: .default, handler: nil))
+                            self.present(alert, animated: true)
+                        }
                     case .success( _):
                         if let data = response.data {
+                            success = true
                             do {
                                 if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String : Any] {
-                                    print(json)
+                                    let defaults = UserDefaults.standard
+                                    if let token = json["token"] as? String {
+                                        defaults.set(token, forKey: "token")
+                                    } else {
+                                        success = false
+                                    }
+                                    if let b64EncName = json["display_name"] as? String {
+                                        defaults.set(b64EncName.base64Decoded(), forKey: "display_name")
+                                    } else {
+                                        sucess = false
+                                    }
+                                    if let b64EncUsername = json["username"] as? String {
+                                        defaults.set(b64EncUsername.base64Decoded(), forKey: "username")
+                                    } else {
+                                        success = false
+                                    }
                                 }
                             } catch _ as NSError {
-                                return
+                                success = false
+                            }
+                            if success {
+                                //LOAD NEXT SCREEN
                             }
                         }
                         
@@ -125,6 +149,17 @@ class CreateAccountController: UIViewController {
                 }
             }
         }
+    }
+}
+
+extension String {
+    func base64Encoded() -> String? {
+        return data(using: .utf8)?.base64EncodedString()
+    }
+    
+    func base64Decoded() -> String? {
+        guard let data = Data(base64Encoded: self) else { return nil }
+        return String(data: data, encoding: .utf8)
     }
 }
 

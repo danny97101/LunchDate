@@ -27,9 +27,11 @@
                 exit;
             }
             $token = db::getToken($user);
-            $user['token'] = $token;
-            error_log("USER:");
-            echo json_encode($user);
+            $ret = array();
+            $ret['token'] = $token;
+            $ret['username'] = $user['username'];
+            $ret['display_name'] = $user['display_name'];
+            echo json_encode($ret);
             exit(0);
         case 'checkToken':
             $token = $_REQUEST["token"];
