@@ -18,6 +18,7 @@
             $displayName = $_REQUEST["display_name"];
             db::addUser($username, $password, $displayName);
         case 'login':
+            error_log("login!!!!");
             $username = $_REQUEST["username"];
             $password = $_REQUEST["password"];
             $user = db::getUser($username, $password);
@@ -27,6 +28,7 @@
             }
             $token = db::getToken($user);
             $user['token'] = $token;
+            error_log("USER:");
             echo json_encode($user);
             exit(0);
         case 'checkToken':

@@ -27,7 +27,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="774"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="hYv-4m-WAO">
-                                        <rect key="frame" x="15" y="0.0" width="399" height="474"/>
+                                        <rect key="frame" x="15" y="200" width="399" height="265"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9I3-Gr-RKG">
                                                 <rect key="frame" x="0.0" y="0.0" width="399" height="15"/>
@@ -72,6 +72,10 @@
                                                                 <nil key="textColor"/>
                                                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                                                 <textInputTraits key="textInputTraits" textContentType="username"/>
+                                                                <connections>
+                                                                    <action selector="editingEnd:" destination="9pv-A4-QxB" eventType="editingDidEnd" id="ucW-GP-VqS"/>
+                                                                    <action selector="username:" destination="9pv-A4-QxB" eventType="editingChanged" id="8rY-bb-3vd"/>
+                                                                </connections>
                                                             </textField>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XhF-Tl-GgC">
                                                                 <rect key="frame" x="0.0" y="99" width="284" height="1"/>
@@ -120,18 +124,40 @@
                                                     <constraint firstAttribute="height" constant="15" id="a2k-2G-XlP"/>
                                                 </constraints>
                                             </view>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Allergies" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w7B-Cg-Jag">
-                                                <rect key="frame" x="0.0" y="221" width="399" height="53"/>
-                                                <fontDescription key="fontDescription" name="HelveticaNowDisplay-XBlk" family="Helvetica Now Display" pointSize="36"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qVD-sy-XCo">
-                                                <rect key="frame" x="0.0" y="274" width="399" height="200"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="200" id="b5p-9n-f9i"/>
-                                                </constraints>
-                                            </pickerView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4sU-bz-Olk">
+                                                <rect key="frame" x="0.0" y="221" width="399" height="44"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZqL-e9-uoV">
+                                                        <rect key="frame" x="0.0" y="0.0" width="384" height="44"/>
+                                                        <color key="backgroundColor" red="0.56454330679999998" green="0.85547238589999997" blue="0.50974261759999995" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="44" id="csw-5a-FqC"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="20"/>
+                                                        <state key="normal" title="Create Account">
+                                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        </state>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
+                                                                <integer key="value" value="1"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                                <integer key="value" value="5"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                        <connections>
+                                                            <action selector="createAccount:" destination="9pv-A4-QxB" eventType="touchUpInside" id="384-RT-lIr"/>
+                                                        </connections>
+                                                    </button>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g8X-Qw-Aom">
+                                                        <rect key="frame" x="384" y="0.0" width="15" height="44"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="15" id="HHT-45-aFe"/>
+                                                        </constraints>
+                                                    </view>
+                                                </subviews>
+                                            </stackView>
                                         </subviews>
                                         <constraints>
                                             <constraint firstItem="npN-BU-T6P" firstAttribute="height" secondItem="sV0-qQ-QnR" secondAttribute="height" id="Whn-il-Ego"/>
@@ -143,7 +169,7 @@
                                     <constraint firstItem="hYv-4m-WAO" firstAttribute="width" secondItem="xqa-X8-RL9" secondAttribute="width" constant="-15" id="FLX-Br-gif"/>
                                     <constraint firstAttribute="bottom" secondItem="hYv-4m-WAO" secondAttribute="bottom" id="IvU-M1-Vsz"/>
                                     <constraint firstItem="hYv-4m-WAO" firstAttribute="leading" secondItem="xqa-X8-RL9" secondAttribute="leading" constant="15" id="S14-62-txk"/>
-                                    <constraint firstItem="hYv-4m-WAO" firstAttribute="top" secondItem="xqa-X8-RL9" secondAttribute="top" id="SgL-Bh-y5J"/>
+                                    <constraint firstItem="hYv-4m-WAO" firstAttribute="top" secondItem="xqa-X8-RL9" secondAttribute="top" constant="200" id="SgL-Bh-y5J"/>
                                     <constraint firstAttribute="trailing" secondItem="hYv-4m-WAO" secondAttribute="trailing" id="zgx-CQ-CYD"/>
                                 </constraints>
                             </scrollView>
@@ -160,7 +186,11 @@
                     <tabBarItem key="tabBarItem" title="First" image="first" id="acW-dT-cKf"/>
                     <navigationItem key="navigationItem" id="Tey-uA-GZc"/>
                     <connections>
-                        <outlet property="allergenPickerView" destination="qVD-sy-XCo" id="eWf-Nw-h9c"/>
+                        <outlet property="confirmField" destination="a0j-0v-Vn0" id="2Pb-93-QTd"/>
+                        <outlet property="nameField" destination="Cxd-P2-Psh" id="eiG-BH-OvV"/>
+                        <outlet property="passwordField" destination="npN-BU-T6P" id="fYW-ux-NlS"/>
+                        <outlet property="submitButton" destination="ZqL-e9-uoV" id="Fz8-w9-L1r"/>
+                        <outlet property="usernameField" destination="sV0-qQ-QnR" id="4Ja-fz-4AK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>

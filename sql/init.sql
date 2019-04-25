@@ -1,25 +1,25 @@
 CREATE TABLE user (
 	id int NOT NULL AUTO_INCREMENT,
-	display_name varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci,
-	username varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL UNIQUE,
-	password varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-	salt varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-	available_times varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci,
+	display_name varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+	username varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL UNIQUE,
+	password varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+	salt varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+	available_times varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
 	last_updated datetime,
-	token varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci,
+	token varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
 	PRIMARY KEY (id)
 );
 
 CREATE TABLE allergen (
 	id int NOT NULL AUTO_INCREMENT,
-	name varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci UNIQUE,
+	name varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci UNIQUE,
 	PRIMARY KEY (id)
 );
 
 CREATE TABLE meal_option (
 	id int NOT NULL AUTO_INCREMENT,
 	dining_hall ENUM ('Towers', 'Terraces', 'Campus Center') NOT NULL,
-	food_item varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+	food_item varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
 	calories int,
 	date_available date NOT NULL,
 	PRIMARY KEY (id),

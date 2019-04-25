@@ -34,12 +34,13 @@
         if (!($stmt = $mysqli->prepare("INSERT INTO user (username, password, salt, display_name) VALUES (?,?,?,?)"))) {
             error_log("Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error);
         }
-        if (!$stmt->bind_param("ssss", $username, $hash, $salt, $displayName)) {
+        if (!$stmt->bind_param("ssss", base64_encode($username), $hash, base64_encode($salt), base64_encode($displayName))) {
             error_log("Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error);
         }
         $stmt->execute();
         if ($stmt->errno) {
             error_log("Could not add user " . $username . ".");
+            error_log($stmt->error);
         }
         $stmt->close();
         }
@@ -49,7 +50,7 @@
         if (!($stmt = $mysqli->prepare("SELECT * FROM `user` WHERE username = ? ORDER BY `id` DESC"))) {
             error_log("Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error);
         }
-        if (!$stmt->bind_param("s", $username)) {
+        if (!$stmt->bind_param("s", base64_encode($username))) {
             error_log("Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error);
         }
         if (!$stmt->execute()) {
@@ -63,7 +64,7 @@
             }
         if (count($ret) > 0) {
             $user = $ret[0];
-            $hash = hash_pbkdf2("sha256", $password, $user["salt"], 1000, 32);
+            $hash = hash_pbkdf2("sha256", $password, base64_decode($user["salt"]), 1000, 32);
             if ($hash == $user["password"]) {
             return $user;
             } else {
@@ -144,6 +145,19 @@
                 $ret[] = $row;
             }
             return $ret;
+        }
+        
+        public function setAllergenByName($user, $allergen, $active) {
+            $mysqli = self::makeDBConnection();
+            if (!($stmt = $mysqli->prepare("INSERT INTO `user_to_allergen` (user_id, allergen_id, active) VALUES (?, (SELECT id FROM `allergen` WHERE name=?), ?) ON DUPLICATE KEY UPDATE active=?"))) {
+                error_log("Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error);
+            }
+            if (!$stmt->bind_param("dsdd", $user["id"], $allergen, $active, $active)) {
+                error_log("Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error);
+            }
+            if (!$stmt->execute()) {
+                error_log("Execute failed: (" . $stmt->errno . ") " . $stmt->error);
+            }
         }
 
 
