@@ -117,7 +117,7 @@ class CreateAccountController: UIViewController {
                         }
                     case .success( _):
                         if let data = response.data {
-                            success = true
+                            var success = true
                             do {
                                 if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String : Any] {
                                     let defaults = UserDefaults.standard
@@ -129,7 +129,7 @@ class CreateAccountController: UIViewController {
                                     if let b64EncName = json["display_name"] as? String {
                                         defaults.set(b64EncName.base64Decoded(), forKey: "display_name")
                                     } else {
-                                        sucess = false
+                                        success = false
                                     }
                                     if let b64EncUsername = json["username"] as? String {
                                         defaults.set(b64EncUsername.base64Decoded(), forKey: "username")
@@ -141,7 +141,10 @@ class CreateAccountController: UIViewController {
                                 success = false
                             }
                             if success {
-                                //LOAD NEXT SCREEN
+                                let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                                let tabViewController = storyBoard.instantiateViewController(withIdentifier: "tab") as! MainTabController
+                                tabViewController.selectedIndex = 3
+                                self.present(tabViewController, animated: false, completion: nil)
                             }
                         }
                         

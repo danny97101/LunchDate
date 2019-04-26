@@ -46,6 +46,8 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Calendar access is required to determine the time of your lunch dates.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>HelveticaNowDisplayXBlk.otf</string>
