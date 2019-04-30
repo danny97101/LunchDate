@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.59" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Obk-3X-SKD">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Obk-3X-SKD">
     <device id="retina6_1" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.45"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -365,16 +365,16 @@
             </objects>
             <point key="canvasLocation" x="1726" y="-784"/>
         </scene>
-        <!--Second-->
+        <!--Home-->
         <scene sceneID="wg7-f3-ORb">
             <objects>
-                <viewController id="8rJ-Kc-sve" customClass="SecondViewController" customModule="LunchDate" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Home" id="8rJ-Kc-sve" customClass="HomeController" customModule="LunchDate" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="QS5-Rx-YEW">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Second View" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="zEq-FU-wV5">
-                                <rect key="frame" x="106.5" y="426.5" width="201.5" height="43"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Home" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="zEq-FU-wV5">
+                                <rect key="frame" x="160" y="426.5" width="94" height="43"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="36"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -396,11 +396,11 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="O1u-W8-tvY"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Second" image="second" id="cPa-gy-q4n"/>
+                    <tabBarItem key="tabBarItem" title="Home" image="Home" id="cPa-gy-q4n"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="761" y="206"/>
+            <point key="canvasLocation" x="-509" y="251"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="aND-8c-FnE">
@@ -633,16 +633,16 @@
             </objects>
             <point key="canvasLocation" x="59" y="-473"/>
         </scene>
-        <!--Second-->
+        <!--Friends-->
         <scene sceneID="bfH-yb-0Lf">
             <objects>
-                <viewController id="UN6-EZ-MxM" customClass="SecondViewController" customModule="LunchDate" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="UN6-EZ-MxM" customClass="RequestController" customModule="LunchDate" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="7ZG-LO-GxO">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Second View" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="3tu-7U-H4r">
-                                <rect key="frame" x="106.5" y="426.5" width="201.5" height="43"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Friend Requests" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="3tu-7U-H4r">
+                                <rect key="frame" x="82" y="426.5" width="250" height="43"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="36"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -664,22 +664,22 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="x8X-5p-74a"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Second" image="second" id="IcH-Ff-YWc"/>
+                    <tabBarItem key="tabBarItem" title="Friends" image="Friends" id="IcH-Ff-YWc"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ll6-Rg-se8" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1388" y="206"/>
         </scene>
-        <!--Second-->
+        <!--Search-->
         <scene sceneID="shf-Og-ozm">
             <objects>
-                <viewController id="Z6S-PC-Bf4" customClass="SecondViewController" customModule="LunchDate" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Z6S-PC-Bf4" customClass="SearchController" customModule="LunchDate" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="mpE-iq-Der">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Second View" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="kyN-E8-HVc">
-                                <rect key="frame" x="106.5" y="426.5" width="201.5" height="43"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Search" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="kyN-E8-HVc">
+                                <rect key="frame" x="153" y="426.5" width="108" height="43"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="36"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -701,17 +701,19 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ZOQ-tE-2SE"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Second" image="second" id="OYo-Mw-htx"/>
+                    <tabBarItem key="tabBarItem" title="Search" image="search" id="OYo-Mw-htx"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vOV-ph-eMx" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-206" y="296"/>
+            <point key="canvasLocation" x="465" y="286"/>
         </scene>
     </scenes>
     <resources>
+        <image name="Friends" width="30" height="30"/>
+        <image name="Home" width="30" height="30"/>
         <image name="first" width="30" height="30"/>
         <image name="logo-0.png" width="240" height="240"/>
-        <image name="second" width="30" height="30"/>
+        <image name="search" width="30" height="30"/>
         <image name="user-male" width="30" height="30"/>
     </resources>
 </document>
