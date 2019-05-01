@@ -75,7 +75,7 @@ class WelcomeController: UIViewController {
                                             if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String : Any] {
                                                 if json["user"] as? Int != -1 {
                                                     let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                                                    let tabViewController = storyBoard.instantiateViewController(withIdentifier: "tab") as! MainTabController
+                                                    let tabViewController = storyBoard.instantiateViewController(withIdentifier: "prettyboi") as! UINavigationController
                                                     self.present(tabViewController, animated: false, completion: nil)
                                                 }
                                             }

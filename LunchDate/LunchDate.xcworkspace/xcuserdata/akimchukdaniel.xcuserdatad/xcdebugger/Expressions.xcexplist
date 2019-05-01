@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "closure #1 in WelcomeController.viewDidLoad():WelcomeController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "json[&quot;user&quot;] as! Int">
+            </PersistentString>
+            <PersistentString
+               value = "print(responseObject)">
+            </PersistentString>
+            <PersistentString
+               value = "json[&quot;user&quot;]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "WelcomeController.viewDidLoad():WelcomeController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "JSONSerialization.jsonObject(with: request.httpBody!) as [String: Any]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in CreateAccountController.createAccount(_:):CreateAccountController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "b64EncName.base64Decoded()">
+            </PersistentString>
+            <PersistentString
+               value = "print(response.response?.statusCode)">
+            </PersistentString>
+            <PersistentString
+               value = "print(String(bytes: b64EncName, encoding: .utf8!)">
+            </PersistentString>
+            <PersistentString
+               value = "navViewController.viewControllers">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>
