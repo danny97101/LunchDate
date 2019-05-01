@@ -78,9 +78,11 @@ class LoginController: UIViewController {
                     }
                     if success {
                         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                        let tabViewController = storyBoard.instantiateViewController(withIdentifier: "tab") as! MainTabController
+                        //let tabViewController = storyBoard.instantiateViewController(withIdentifier: "tab") as! MainTabController
+                        let navViewController = storyBoard.instantiateViewController(withIdentifier: "prettyboi") as! UINavigationController
+                        let tabViewController = navViewController.viewControllers[0] as! MainTabController
                         tabViewController.selectedIndex = 0
-                        self.present(tabViewController, animated: false, completion: nil)
+                        self.present(navViewController, animated: false, completion: nil)
                     }
                 }
                 

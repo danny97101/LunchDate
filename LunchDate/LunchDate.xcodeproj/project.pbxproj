@@ -13,6 +13,7 @@
 		793B81AE226CEF77006A58EC /* Graphics in Resources */ = {isa = PBXBuildFile; fileRef = 793B81AD226CEF77006A58EC /* Graphics */; };
 		793B81B0226CF17E006A58EC /* HelveticaNowDisplayXBlk.otf in Resources */ = {isa = PBXBuildFile; fileRef = 793B81AF226CF17E006A58EC /* HelveticaNowDisplayXBlk.otf */; };
 		7942C3E4226D12C600C7E2F1 /* MainTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7942C3E3226D12C600C7E2F1 /* MainTabController.swift */; };
+		7947542D227A4DC4006F0C70 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7947542B227A4A90006F0C70 /* LoginController.swift */; };
 		DE9F51DC2260E940006AC89D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE9F51DB2260E940006AC89D /* AppDelegate.swift */; };
 		DE9F51DE2260E940006AC89D /* CreateAccountController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE9F51DD2260E940006AC89D /* CreateAccountController.swift */; };
 		DE9F51E02260E940006AC89D /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE9F51DF2260E940006AC89D /* HomeController.swift */; };
@@ -31,6 +32,7 @@
 		793B81AD226CEF77006A58EC /* Graphics */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Graphics; path = ../../Graphics; sourceTree = "<group>"; };
 		793B81AF226CF17E006A58EC /* HelveticaNowDisplayXBlk.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = HelveticaNowDisplayXBlk.otf; sourceTree = "<group>"; };
 		7942C3E3226D12C600C7E2F1 /* MainTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabController.swift; sourceTree = "<group>"; };
+		7947542B227A4A90006F0C70 /* LoginController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		872882520DF8E0E9327D6844 /* Pods-LunchDate.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LunchDate.release.xcconfig"; path = "Target Support Files/Pods-LunchDate/Pods-LunchDate.release.xcconfig"; sourceTree = "<group>"; };
 		D2D41FDC3753A2501F23709E /* Pods-LunchDate.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LunchDate.debug.xcconfig"; path = "Target Support Files/Pods-LunchDate/Pods-LunchDate.debug.xcconfig"; sourceTree = "<group>"; };
 		DE9F51D82260E940006AC89D /* LunchDate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LunchDate.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -96,6 +98,7 @@
 		DE9F51DA2260E940006AC89D /* LunchDate */ = {
 			isa = PBXGroup;
 			children = (
+				7947542B227A4A90006F0C70 /* LoginController.swift */,
 				DE9F51DB2260E940006AC89D /* AppDelegate.swift */,
 				DE9F51DD2260E940006AC89D /* CreateAccountController.swift */,
 				791AB520226CF9C700022681 /* WelcomeController.swift */,
@@ -236,6 +239,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7947542D227A4DC4006F0C70 /* LoginController.swift in Sources */,
 				DE9F51E02260E940006AC89D /* HomeController.swift in Sources */,
 				DE9F51DC2260E940006AC89D /* AppDelegate.swift in Sources */,
 				7942C3E4226D12C600C7E2F1 /* MainTabController.swift in Sources */,
