@@ -16,6 +16,7 @@
 		7942C3E4226D12C600C7E2F1 /* MainTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7942C3E3226D12C600C7E2F1 /* MainTabController.swift */; };
 		7947542D227A4DC4006F0C70 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7947542B227A4A90006F0C70 /* LoginController.swift */; };
 		7947542F227A5084006F0C70 /* PrettyBoi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7947542E227A5084006F0C70 /* PrettyBoi.swift */; };
+		79DDCAED227CD2F2006A8199 /* FriendRequestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DDCAEC227CD2F1006A8199 /* FriendRequestTableViewCell.swift */; };
 		DE9F51DC2260E940006AC89D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE9F51DB2260E940006AC89D /* AppDelegate.swift */; };
 		DE9F51DE2260E940006AC89D /* CreateAccountController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE9F51DD2260E940006AC89D /* CreateAccountController.swift */; };
 		DE9F51E02260E940006AC89D /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE9F51DF2260E940006AC89D /* HomeController.swift */; };
@@ -37,6 +38,7 @@
 		7942C3E3226D12C600C7E2F1 /* MainTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabController.swift; sourceTree = "<group>"; };
 		7947542B227A4A90006F0C70 /* LoginController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		7947542E227A5084006F0C70 /* PrettyBoi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrettyBoi.swift; sourceTree = "<group>"; };
+		79DDCAEC227CD2F1006A8199 /* FriendRequestTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendRequestTableViewCell.swift; sourceTree = "<group>"; };
 		872882520DF8E0E9327D6844 /* Pods-LunchDate.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LunchDate.release.xcconfig"; path = "Target Support Files/Pods-LunchDate/Pods-LunchDate.release.xcconfig"; sourceTree = "<group>"; };
 		D2D41FDC3753A2501F23709E /* Pods-LunchDate.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LunchDate.debug.xcconfig"; path = "Target Support Files/Pods-LunchDate/Pods-LunchDate.debug.xcconfig"; sourceTree = "<group>"; };
 		DE9F51D82260E940006AC89D /* LunchDate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LunchDate.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -119,6 +121,7 @@
 				7942C3E3226D12C600C7E2F1 /* MainTabController.swift */,
 				7947542E227A5084006F0C70 /* PrettyBoi.swift */,
 				79095B2F227CA47700001B1A /* MeController.swift */,
+				79DDCAEC227CD2F1006A8199 /* FriendRequestTableViewCell.swift */,
 			);
 			path = LunchDate;
 			sourceTree = "<group>";
@@ -251,6 +254,7 @@
 				DE9F51DC2260E940006AC89D /* AppDelegate.swift in Sources */,
 				7942C3E4226D12C600C7E2F1 /* MainTabController.swift in Sources */,
 				DEC430102277D6DA00FE8DA5 /* SearchController.swift in Sources */,
+				79DDCAED227CD2F2006A8199 /* FriendRequestTableViewCell.swift in Sources */,
 				791AB523226CFB1600022681 /* Config.swift in Sources */,
 				791AB521226CF9C700022681 /* WelcomeController.swift in Sources */,
 				DE9F51DE2260E940006AC89D /* CreateAccountController.swift in Sources */,

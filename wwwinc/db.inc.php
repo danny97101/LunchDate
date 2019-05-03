@@ -220,6 +220,41 @@
             return 1;
             
         }
+        
+        public static function getFriendRequestsForUser($user) {
+            $mysqli = self::makeDBConnection();
+            if (!($stmt = $mysqli->prepare("select user_to_user.id, user.display_name, user.username from user join user_to_user on user.id=user_to_user.user1_id where user_to_user.status='requested' and user_to_user.user2_id=?"))) {
+                error_log("Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error);
+            }
+            if (!$stmt->bind_param("d", $user["id"])) {
+                error_log("Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error);
+            }
+            if (!$stmt->execute()) {
+                error_log("Execute failed: (" . $stmt->errno . ") " . $stmt->error);
+                return array();
+            }
+            $result = $stmt->get_result();
+            $ret = array();
+            while ($row = $result->fetch_array(MYSQLI_ASSOC))
+            {
+                $ret[] = $row;
+            }
+            return $ret;
+        }
+        
+        public static function respondToFriendRequest($userToUserID, $response) {
+            $mysqli = self::makeDBConnection();
+            if (!($stmt = $mysqli->prepare("update user_to_user set status=? where id=?"))) {
+                error_log("Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error);
+            }
+            if (!$stmt->bind_param("sd", $response, $userToUserID)) {
+                error_log("Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error);
+            }
+            if (!$stmt->execute()) {
+                error_log("Execute failed: (" . $stmt->errno . ") " . $stmt->error);
+                return array();
+            }
+        }
 
 
     }

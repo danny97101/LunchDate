@@ -91,5 +91,31 @@
                 echo json_encode($ret);
             }
             exit(0);
+        case 'getFriendRequests':
+            $token = $_REQUEST["token"];
+            $user = db::getUserByToken($token);
+            if ($user != -1) {
+                $ret = json_encode(db::getFriendRequestsForUser($user));
+                error_log($ret);
+                echo $ret;
+            }
+            exit(0);
+        case 'respondToFriendRequest':
+            $token = $_REQUEST["token"];
+            $user = db::getUserByToken($token);
+            if ($user != -1) {
+                $userToUserID = $_REQUEST["request_id"];
+                $response = $_REQUEST["response"];
+                if ($response == 1) {
+                    $responseStr = "friends";
+                } else {
+                    $responseStr = "not friends";
+                }
+                db::respondToFriendRequest($userToUserID, $responseStr);
+            }
+            $ret = array();
+            $ret["success"] = 1;
+            echo json_encode($ret);
+            exit(0);
     }
 ?>

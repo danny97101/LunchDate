@@ -10,6 +10,15 @@ CREATE TABLE user (
 	PRIMARY KEY (id)
 );
 
+CREATE TABLE user_to_user (
+	id int NOT NULL AUTO_INCREMENT,
+	user1_id int NOT NULL,
+	user2_id int NOT NULL,
+	status ENUM ('friends', 'requested', 'not friends') NOT NULL DEFAULT 'requested',
+	PRIMARY KEY (id),
+	UNIQUE(user1_id, user2_id)
+);
+
 CREATE TABLE allergen (
 	id int NOT NULL AUTO_INCREMENT,
 	name varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci UNIQUE,
