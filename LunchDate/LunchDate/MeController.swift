@@ -11,6 +11,7 @@ import UIKit
 import Alamofire
 
 class MeController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return pickerData.count
     }
@@ -46,9 +47,116 @@ class MeController: UIViewController, UITableViewDelegate, UITableViewDataSource
 
     
     override func viewDidAppear(_ animated: Bool) {
+        getUserData()
+    }
+    @IBAction func saveChanges(_ sender: Any) {
+        let name = nameField.text ?? ""
+        let username = usernameField.text ?? ""
         let defaults = UserDefaults.standard
         let token = defaults.string(forKey: "token")
         if token != nil {
+            var parameters: Parameters = [
+                "action": "updateUser",
+                "token": token!,
+                "display_name": name,
+                "username": username,
+            ]
+            
+            for i in 0..<self.isAllergic.count {
+                let cell = self.table.cellForRow(at: IndexPath(item: i, section: 0))
+                let allergen = cell?.textLabel?.text
+                if cell?.isSelected ?? false {
+                    parameters.updateValue(1, forKey: allergen!)
+                } else {
+                    parameters.updateValue(0, forKey: allergen!)
+                }
+            }
+            Alamofire.request(Config.host + "action.php", method: .post, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+                switch response.result {
+                case .failure(let error):
+                    print(error)
+                    
+                    if let data = response.data, let responseString = String(data: data, encoding: .utf8) {
+                        print(responseString)
+                    }
+                case .success( _):
+                    if let data = response.data, let responseString = String(data: data, encoding: .utf8) {
+                        print(responseString)
+                        do {
+                            if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String : Any] {
+                                if let success = json["success"] as? Int {
+                                    if success == 0 {
+                                        let alert = UIAlertController(title: "Couldn't Update", message: "There was a problem updating user info. Either the requested username is already taken or no name was inputted.", preferredStyle: .alert)
+                                        alert.addAction(UIAlertAction(title: "Retry", style: .default, handler: nil))
+                                        self.present(alert, animated: true)
+                                    } else {
+                                        let alert = UIAlertController(title: "Update Successful", message: "User info was successfully updated.", preferredStyle: .alert)
+                                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                                        self.present(alert, animated: true)
+                                    }
+                                }
+                            }
+                        } catch _ as NSError {
+                            
+                        }
+                    }
+                }
+                self.getUserData()
+            }
+        }
+    }
+    
+    @IBAction func username(_ sender: Any) {
+        let ind = usernameField.text?.firstIndex(of: "@")
+        if ind == nil || ind! != usernameField.text?.startIndex {
+            usernameField.text = "@" + (usernameField.text ?? "")
+        }
+    }
+    @IBAction func editingEnd(_ sender: Any) {
+        if (usernameField.text?.count ?? 0) <= 1 {
+            usernameField.text = ""
+        }
+    }
+    
+    public func getUserData() {
+        let defaults = UserDefaults.standard
+        let token = defaults.string(forKey: "token")
+        if token != nil {
+            
+            let userParam: Parameters = [
+                "action" : "getUserInfo",
+                "token" : token!
+            ]
+            
+            Alamofire.request(Config.host + "action.php", method: .post, parameters: userParam, encoding: URLEncoding.default).responseJSON { response in
+                switch response.result {
+                case .failure(let error):
+                    print(error)
+                    
+                    if let data = response.data, let responseString = String(data: data, encoding: .utf8) {
+                        print(responseString)
+                    }
+                case .success( _):
+                    if let data = response.data, let responseString =  String(data: data, encoding: .utf8){
+                        print(responseString)
+                        do {
+                            if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String : Any] {
+                                if let user = json["user"] as? [String : Any] {
+                                    self.nameField.text = (user["display_name"] as? String)?.base64Decoded()
+                                    self.usernameField.text = (user["username"] as? String)?.base64Decoded()
+                                }
+                            }
+                        } catch _ as NSError {
+                            
+                        }
+                    }
+                }
+            }
+            
+            
+            
+            
+            
             let parameters: Parameters = [
                 "action" : "getAllergensForUser",
                 "token" : token!,
@@ -71,11 +179,15 @@ class MeController: UIViewController, UITableViewDelegate, UITableViewDataSource
                                 self.isAllergic = []
                                 for allergen in json {
                                     self.pickerData.append(allergen["name"] as! String)
-                                        self.isAllergic.append(allergen["allergic"] as! Int == 1)
+                                    self.isAllergic.append(allergen["allergic"] as! Int == 1)
                                 }
                                 self.table.reloadData()
+                                self.tableViewHeightConstraint.constant = self.table.contentSize.height
                                 for i in 0..<self.isAllergic.count {
-                                    self.table.cellForRow(at: IndexPath(item: i, section: 0))?.setSelected(self.isAllergic[i], animated: true)
+                                    let indexPath = IndexPath(item: i, section: 0)
+                                    if self.isAllergic[i]{
+                                        self.table.selectRow(at: indexPath, animated: true, scrollPosition: .bottom)
+                                    }
                                 }
                             }
                         }

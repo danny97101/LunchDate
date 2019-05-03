@@ -7,7 +7,7 @@
         const DBNAME = "LunchDate";
         const TOKENKEY = "our super secret server key";
 
-        protected function makeDBConnection(){
+        protected static function makeDBConnection(){
         $success = 0;
         $tries = 0;
         while ($success == 0) {
@@ -27,7 +27,7 @@
         }
         }
 
-        public function addUser($username, $password, $displayName) {
+        public static function addUser($username, $password, $displayName) {
         $salt = random_bytes(32);
         $hash = hash_pbkdf2("sha256", $password, $salt, 1000, 32);
         $mysqli = self::makeDBConnection();
@@ -45,7 +45,7 @@
         $stmt->close();
         }
 
-        public function getUser($username, $password) {
+        public static function getUser($username, $password) {
         $mysqli = self::makeDBConnection();
         if (!($stmt = $mysqli->prepare("SELECT * FROM `user` WHERE username = ? ORDER BY `id` DESC"))) {
             error_log("Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error);
@@ -75,7 +75,7 @@
         }
         }
 
-        public function getToken($user) {
+        public static function getToken($user) {
             $toEncode = array();
             $toEncode['username'] = $user["username"];
             $toEncode['valid_at'] = time();
@@ -94,7 +94,7 @@
             return $token;
         }
 
-        public function removeToken($user) {
+        public static function removeToken($user) {
             if (!($stmt = $mysqli->prepare("UPDATE `user` SET `token` = NULL WHERE id = ?"))) {
                 error_log("Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error);
             }
@@ -106,7 +106,7 @@
             }
         }
 
-        public function getUserByToken($token) {
+        public static function getUserByToken($token) {
             $mysqli = self::makeDBConnection();
             if (!($stmt = $mysqli->prepare("SELECT * FROM `user` WHERE token = ? ORDER BY `id` DESC"))) {
                 error_log("Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error);
@@ -130,7 +130,7 @@
             }
         }
         
-        public function getAllergens() {
+        public static function getAllergens() {
             $mysqli = self::makeDBConnection();
             if (!($stmt = $mysqli->prepare("select * from allergen order by `name` asc"))) {
                 error_log("Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error);
@@ -147,7 +147,7 @@
             return $ret;
         }
         
-        public function getAllergensForUser($user) {
+        public static function getAllergensForUser($user) {
             $mysqli = self::makeDBConnection();
             if (!($stmt = $mysqli->prepare("select id, a.name, (select count(user_to_allergen.id) from allergen join user_to_allergen on allergen.id=user_to_allergen.allergen_id where user_to_allergen.user_id = ? and allergen.id=a.id and active=1) as allergic from allergen as a"))) {
                 error_log("Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error);
@@ -167,7 +167,7 @@
             return $ret;
         }
         
-        public function setAllergenByName($user, $allergen, $active) {
+        public static function setAllergenByName($user, $allergen, $active) {
             $mysqli = self::makeDBConnection();
             if (!($stmt = $mysqli->prepare("INSERT INTO `user_to_allergen` (user_id, allergen_id, active) VALUES (?, (SELECT id FROM `allergen` WHERE name=?), ?) ON DUPLICATE KEY UPDATE active=?"))) {
                 error_log("Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error);
@@ -180,7 +180,7 @@
             }
         }
         
-        public function updateCalendar($user, $eventString) {
+        public static function updateCalendar($user, $eventString) {
             $mysqli = self::makeDBConnection();
             if (!($stmt = $mysqli->prepare("UPDATE `user` SET available_times=?, last_updated=NOW() WHERE id=?"))) {
                 error_log("Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error);
@@ -191,6 +191,34 @@
             if (!$stmt->execute()) {
                 error_log("Execute failed: (" . $stmt->errno . ") " . $stmt->error);
             }
+        }
+        
+        public static function updateUser($user, $username, $displayName, $allergic, $notAllergic) {
+            if ($username=="@" or $displayName=="") {
+                return 0;
+            }
+            
+            $mysqli = self::makeDBConnection();
+            if (!($stmt = $mysqli->prepare("UPDATE `user` SET display_name=?, username=? WHERE id=?"))) {
+                error_log("Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error);
+            }
+            if (!$stmt->bind_param("ssd", base64_encode($displayName), base64_encode($username), $user["id"])) {
+                error_log("Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error);
+            }
+            if (!$stmt->execute()) {
+                error_log("Execute failed: (" . $stmt->errno . ") " . $stmt->error);
+                return 0;
+            }
+            
+            foreach ($allergic as $key => $val) {
+                self::setAllergenByName($user, $val, 1);
+            }
+            foreach ($notAllergic as $key => $val) {
+                self::setAllergenByName($user, $val, 0);
+            }
+            
+            return 1;
+            
         }
 
 

@@ -33,10 +33,14 @@
             $ret['display_name'] = $user['display_name'];
             echo json_encode($ret);
             exit(0);
+        case 'getUserInfo':
         case 'checkToken':
             $token = $_REQUEST["token"];
             $ret = array();
-            $ret["user"] = db::getUserByToken($token);
+            $user = db::getUserByToken($token);
+            $ret["user"] = array();
+            $ret["user"]["username"] = $user["username"];
+            $ret["user"]["display_name"] = $user["display_name"];
             echo json_encode($ret);
             exit(0);
         case 'getAllergens':
@@ -61,6 +65,30 @@
             if ($user != -1) {
                 $ret = json_encode(db::getAllergensForUser($user));
                 echo $ret;
+            }
+            exit(0);
+        case 'updateUser':
+            $token = $_REQUEST["token"];
+            $user = db::getUserByToken($token);
+            if ($user != -1) {
+                $displayName = $_REQUEST["display_name"];
+                $username = $_REQUEST["username"];
+                
+                $allergic = array();
+                $notAllergic = array();
+                foreach ($_REQUEST as $key => $val){
+                    if ($key != "token" and $key != "action" and $key != "username" and $key != "display_name") {
+                        if ($val == 1) {
+                            array_push($allergic, $key);
+                        } else {
+                            array_push($notAllergic, $key);
+                        }
+                    }
+                }
+                $success = db::updateUser($user, $username, $displayName, $allergic, $notAllergic);
+                $ret = array();
+                $ret["success"] = $success;
+                echo json_encode($ret);
             }
             exit(0);
     }
