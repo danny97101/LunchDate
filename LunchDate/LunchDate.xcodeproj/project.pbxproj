@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		36F4B6C1128D1AE191F48CD6 /* Pods_LunchDate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38E1B7369A669E3DF89EAD1E /* Pods_LunchDate.framework */; };
+		79095B30227CA47700001B1A /* MeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79095B2F227CA47700001B1A /* MeController.swift */; };
 		791AB521226CF9C700022681 /* WelcomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791AB520226CF9C700022681 /* WelcomeController.swift */; };
 		791AB523226CFB1600022681 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791AB522226CFB1600022681 /* Config.swift */; };
 		793B81AE226CEF77006A58EC /* Graphics in Resources */ = {isa = PBXBuildFile; fileRef = 793B81AD226CEF77006A58EC /* Graphics */; };
@@ -27,6 +28,7 @@
 
 /* Begin PBXFileReference section */
 		38E1B7369A669E3DF89EAD1E /* Pods_LunchDate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LunchDate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		79095B2F227CA47700001B1A /* MeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeController.swift; sourceTree = "<group>"; };
 		791AB520226CF9C700022681 /* WelcomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeController.swift; sourceTree = "<group>"; };
 		791AB522226CFB1600022681 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		791AB524226CFCC600022681 /* Alamofire.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Alamofire.swift; path = Pods/Alamofire/Source/Alamofire.swift; sourceTree = "<group>"; };
@@ -116,6 +118,7 @@
 				791AB522226CFB1600022681 /* Config.swift */,
 				7942C3E3226D12C600C7E2F1 /* MainTabController.swift */,
 				7947542E227A5084006F0C70 /* PrettyBoi.swift */,
+				79095B2F227CA47700001B1A /* MeController.swift */,
 			);
 			path = LunchDate;
 			sourceTree = "<group>";
@@ -251,6 +254,7 @@
 				791AB523226CFB1600022681 /* Config.swift in Sources */,
 				791AB521226CF9C700022681 /* WelcomeController.swift in Sources */,
 				DE9F51DE2260E940006AC89D /* CreateAccountController.swift in Sources */,
+				79095B30227CA47700001B1A /* MeController.swift in Sources */,
 				DEC430122277D70800FE8DA5 /* RequestController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

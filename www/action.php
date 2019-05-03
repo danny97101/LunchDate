@@ -40,9 +40,28 @@
             echo json_encode($ret);
             exit(0);
         case 'getAllergens':
-            $ret = json_encode(db::getAllergens());
-            echo $ret;
+            $token = $_REQUEST["token"];
+            $user = db::getUserByToken($token);
+            if ($user != -1) {
+                $ret = json_encode(db::getAllergens());
+                echo $ret;
+            }
             exit(0);
-
+        case 'uploadCalendar':
+            $token = $_REQUEST["token"];
+            $eventString = $_REQUEST["events"];
+            $user = db::getUserByToken($token);
+            if ($user != -1) {
+                db::updateCalendar($user, $eventString);
+            }
+            exit(0);
+        case 'getAllergensForUser':
+            $token = $_REQUEST["token"];
+            $user = db::getUserByToken($token);
+            if ($user != -1) {
+                $ret = json_encode(db::getAllergensForUser($user));
+                echo $ret;
+            }
+            exit(0);
     }
 ?>
