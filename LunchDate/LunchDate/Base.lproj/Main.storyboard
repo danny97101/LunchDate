@@ -613,11 +613,10 @@
             </objects>
             <point key="canvasLocation" x="-593" y="-2054"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Pretty Boi-->
         <scene sceneID="PuA-iv-D3d">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="cKd-K2-jb4" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <navigationController storyboardIdentifier="prettyboi" useStoryboardIdentifierAsRestorationIdentifier="YES" id="QgM-2M-icS" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="prettyboi" useStoryboardIdentifierAsRestorationIdentifier="YES" id="QgM-2M-icS" customClass="PrettyBoi" customModule="LunchDate" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="nNE-hx-6RF">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -627,6 +626,7 @@
                         <segue destination="49e-Tb-3d3" kind="relationship" relationship="rootViewController" id="Om1-rN-G2b"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cKd-K2-jb4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-2208" y="-483"/>
         </scene>
@@ -634,7 +634,11 @@
         <scene sceneID="yl2-sM-qoP">
             <objects>
                 <tabBarController storyboardIdentifier="tab" useStoryboardIdentifierAsRestorationIdentifier="YES" id="49e-Tb-3d3" customClass="MainTabController" customModule="LunchDate" customModuleProvider="target" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="ubY-k4-l38"/>
+                    <navigationItem key="navigationItem" id="ubY-k4-l38">
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="bell" id="Cux-34-go0">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </barButtonItem>
+                    </navigationItem>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="W28-zg-YXA">
                         <rect key="frame" x="0.0" y="975" width="768" height="49"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -730,6 +734,7 @@
     <resources>
         <image name="Friends" width="30" height="30"/>
         <image name="Home" width="30" height="30"/>
+        <image name="bell" width="60" height="60"/>
         <image name="first" width="30" height="30"/>
         <image name="logo-0.png" width="240" height="240"/>
         <image name="search" width="30" height="30"/>
