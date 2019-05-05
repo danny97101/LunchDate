@@ -255,6 +255,41 @@
                 return array();
             }
         }
+        
+        public static function getFriendsForUser($user) {
+            $mysqli = self::makeDBConnection();
+            if (!($stmt = $mysqli->prepare("select user_to_user.id, user.display_name, user.username from user join user_to_user on user.id=user_to_user.user1_id where user_to_user.status='friends' and user_to_user.user2_id=?"))) {
+                error_log("Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error);
+            }
+            if (!$stmt->bind_param("d", $user["id"])) {
+                error_log("Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error);
+            }
+            if (!$stmt->execute()) {
+                error_log("Execute failed: (" . $stmt->errno . ") " . $stmt->error);
+                return array();
+            }
+            $result = $stmt->get_result();
+            $ret = array();
+            while ($row = $result->fetch_array(MYSQLI_ASSOC))
+            {
+                $ret[] = $row;
+            }
+            return $ret;
+        }
+        
+        public static function removeFriend($user, $username) {
+            $mysqli = self::makeDBConnection();
+            if (!($stmt = $mysqli->prepare("update user_to_user as t join user as t1 on t.user1_id=t1.id join user as t2 on t.user2_id=t2.id set status='not friends' where (t1.id=? and t2.username=?) or (t1.username=? and t2.id=?)"))) {
+                error_log("Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error);
+            }
+            if (!$stmt->bind_param("dssd", $user["id"], base64_encode($username), base64_encode($username), $user["id"])) {
+                error_log("Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error);
+            }
+            if (!$stmt->execute()) {
+                error_log("Execute failed: (" . $stmt->errno . ") " . $stmt->error);
+                return array();
+            }
+        }
 
 
     }

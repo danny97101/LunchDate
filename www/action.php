@@ -96,7 +96,6 @@
             $user = db::getUserByToken($token);
             if ($user != -1) {
                 $ret = json_encode(db::getFriendRequestsForUser($user));
-                error_log($ret);
                 echo $ret;
             }
             exit(0);
@@ -115,6 +114,29 @@
             }
             $ret = array();
             $ret["success"] = 1;
+            echo json_encode($ret);
+            exit(0);
+        case 'getFriends':
+            $token = $_REQUEST["token"];
+            $user = db::getUserByToken($token);
+            if ($user != -1) {
+                $ret = json_encode(db::getFriendsForUser($user));
+                echo $ret;
+            }
+            exit(0);
+        case 'removeFriend':
+            $token = $_REQUEST["token"];
+            $user = db::getUserByToken($token);
+            if ($user != -1) {
+                $friend = $_REQUEST["username"];
+                db::removeFriend($user, $friend);
+                $ret = array();
+                $ret["success"] = 1;
+                echo json_encode($ret);
+                exit(0);
+            }
+            $ret = array();
+            $ret["success"] = 0;
             echo json_encode($ret);
             exit(0);
     }

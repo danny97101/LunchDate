@@ -442,7 +442,7 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wDy-uQ-RD4">
-                                <rect key="frame" x="119" y="442" width="176" height="47"/>
+                                <rect key="frame" x="109" y="430" width="196.5" height="59"/>
                                 <fontDescription key="fontDescription" name="HelveticaNowDisplay-XBlk" family="Helvetica Now Display" pointSize="40"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -675,7 +675,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="pVw-RI-Fgt">
-                                        <rect key="frame" x="15" y="15" width="399" height="353"/>
+                                        <rect key="frame" x="15" y="15" width="399" height="706"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Friend Requests" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e5w-0r-UR8">
                                                 <rect key="frame" x="0.0" y="0.0" width="399" height="53"/>
@@ -773,6 +773,83 @@
                                                     </tableViewCell>
                                                 </prototypes>
                                             </tableView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Friends" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kvu-Hf-HGV">
+                                                <rect key="frame" x="0.0" y="353" width="399" height="53"/>
+                                                <fontDescription key="fontDescription" name="HelveticaNowDisplay-XBlk" family="Helvetica Now Display" pointSize="36"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="130" estimatedRowHeight="130" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Qxw-6V-d3U">
+                                                <rect key="frame" x="0.0" y="406" width="399" height="300"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="300" id="a4t-jQ-KJa"/>
+                                                </constraints>
+                                                <prototypes>
+                                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="friend" id="DPo-nt-6cw" customClass="FriendTableViewCell" customModule="LunchDate" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="28" width="399" height="130"/>
+                                                        <autoresizingMask key="autoresizingMask"/>
+                                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="DPo-nt-6cw" id="6bt-2u-95y">
+                                                            <rect key="frame" x="0.0" y="0.0" width="399" height="129.5"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <subviews>
+                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-0" translatesAutoresizingMaskIntoConstraints="NO" id="HBk-Sb-lUD">
+                                                                    <rect key="frame" x="0.0" y="15" width="100" height="100"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" secondItem="HBk-Sb-lUD" secondAttribute="height" multiplier="1:1" id="Pmr-cF-5Mw"/>
+                                                                        <constraint firstAttribute="height" constant="100" id="Sel-hY-xbb"/>
+                                                                    </constraints>
+                                                                    <userDefinedRuntimeAttributes>
+                                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                                            <integer key="value" value="50"/>
+                                                                        </userDefinedRuntimeAttribute>
+                                                                    </userDefinedRuntimeAttributes>
+                                                                </imageView>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="iRh-Dh-lFg">
+                                                                    <rect key="frame" x="115" y="38" width="72.5" height="37"/>
+                                                                    <fontDescription key="fontDescription" name="HelveticaNowDisplay-XBlk" family="Helvetica Now Display" pointSize="25"/>
+                                                                    <nil key="textColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NbY-qP-Qmr">
+                                                                    <rect key="frame" x="115" y="71.5" width="89" height="20"/>
+                                                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                                                                    <nil key="textColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NBi-Gb-BC4">
+                                                                    <rect key="frame" x="299" y="47" width="85" height="36"/>
+                                                                    <color key="backgroundColor" red="0.88109117749999999" green="0.3187929988" blue="0.29014462229999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" secondItem="NBi-Gb-BC4" secondAttribute="height" multiplier="85:36" id="XMR-sS-iAv"/>
+                                                                    </constraints>
+                                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="20"/>
+                                                                    <state key="normal" title="Remove">
+                                                                        <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                                    </state>
+                                                                    <connections>
+                                                                        <action selector="remove:" destination="DPo-nt-6cw" eventType="touchUpInside" id="apm-hV-g0m"/>
+                                                                    </connections>
+                                                                </button>
+                                                            </subviews>
+                                                            <constraints>
+                                                                <constraint firstItem="NBi-Gb-BC4" firstAttribute="centerY" secondItem="6bt-2u-95y" secondAttribute="centerY" id="GJN-MI-MjM"/>
+                                                                <constraint firstItem="HBk-Sb-lUD" firstAttribute="centerY" secondItem="6bt-2u-95y" secondAttribute="centerY" id="aGT-I1-qeN"/>
+                                                                <constraint firstItem="HBk-Sb-lUD" firstAttribute="leading" secondItem="6bt-2u-95y" secondAttribute="leading" id="d8J-d8-wUu"/>
+                                                                <constraint firstAttribute="trailing" secondItem="NBi-Gb-BC4" secondAttribute="trailing" constant="15" id="eXk-Vz-waa"/>
+                                                                <constraint firstItem="iRh-Dh-lFg" firstAttribute="top" secondItem="6bt-2u-95y" secondAttribute="top" constant="38" id="geo-ZH-yOH"/>
+                                                                <constraint firstItem="NbY-qP-Qmr" firstAttribute="leading" secondItem="HBk-Sb-lUD" secondAttribute="trailing" constant="15" id="sDS-Ks-u7A"/>
+                                                                <constraint firstItem="iRh-Dh-lFg" firstAttribute="leading" secondItem="HBk-Sb-lUD" secondAttribute="trailing" constant="15" id="uTC-dP-ofe"/>
+                                                                <constraint firstAttribute="bottom" secondItem="NbY-qP-Qmr" secondAttribute="bottom" constant="38" id="uky-ya-05h"/>
+                                                            </constraints>
+                                                        </tableViewCellContentView>
+                                                        <connections>
+                                                            <outlet property="nameLabel" destination="iRh-Dh-lFg" id="yCb-Xb-ptP"/>
+                                                            <outlet property="usernameLabel" destination="NbY-qP-Qmr" id="34k-6b-Gbj"/>
+                                                        </connections>
+                                                    </tableViewCell>
+                                                </prototypes>
+                                            </tableView>
                                         </subviews>
                                     </stackView>
                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No New Requests" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QsN-zq-lvs">
@@ -804,6 +881,8 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Friends" image="Friends" id="IcH-Ff-YWc"/>
                     <connections>
+                        <outlet property="friendTableView" destination="Qxw-6V-d3U" id="laJ-Iw-RWj"/>
+                        <outlet property="friendTableViewHeight" destination="a4t-jQ-KJa" id="qYI-7q-vcl"/>
                         <outlet property="noNewRequests" destination="QsN-zq-lvs" id="UFu-RG-CCY"/>
                         <outlet property="requestTableHeight" destination="Sfm-y5-T11" id="YIG-AF-ueq"/>
                         <outlet property="requestTableView" destination="6pb-Qy-sxc" id="ONt-Im-yut"/>
