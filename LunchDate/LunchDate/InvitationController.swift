@@ -8,8 +8,21 @@
 
 import Foundation
 import UIKit
+import Alamofire
 
-class InvitationController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class InvitationController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIPickerViewDelegate, UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return pickerOptions.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return pickerOptions[row]
+    }
+    
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var whoTableHeight: NSLayoutConstraint!
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -24,6 +37,7 @@ class InvitationController: UIViewController, UITableViewDelegate, UITableViewDa
             return cell
     }
     
+    @IBOutlet weak var locationPicker: UIPickerView!
     @IBOutlet weak var scrollHeight: NSLayoutConstraint!
     @IBOutlet weak var textView: UITextView!
     @objc func adjustForKeyboard(notification: Notification) {
@@ -51,6 +65,9 @@ class InvitationController: UIViewController, UITableViewDelegate, UITableViewDa
     var names: [String] = []
     var free: [[DateInterval]] = []
     var everybodyFree: [DateInterval] = []
+    var diningHallOptions: [Set<String>] = []
+    
+    var pickerOptions: [String] = []
 //
 //    override func dismissKeyboard() {
 //        super.dismissKeyboard()
@@ -73,12 +90,67 @@ class InvitationController: UIViewController, UITableViewDelegate, UITableViewDa
         
         whoTable.delegate = self
         whoTable.dataSource = self
+        locationPicker.delegate = self
+        locationPicker.dataSource = self
         whoTable.reloadData()
         whoTableHeight.constant = whoTable.contentSize.height
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
         notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         scrollView.keyboardDismissMode = .interactive
+        
+        let defaults = UserDefaults.standard
+        let token = defaults.string(forKey: "token")
+        var usersPlusMe = usernames
+        usersPlusMe.append(defaults.string(forKey: "username")!)
+        for user in usersPlusMe {
+            let parameters: Parameters = [
+                "action" : "getPotentialLocations",
+                "token" : token!,
+                "username": user
+            ]
+            
+            Alamofire.request(Config.host + "action.php", method: .get, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+                switch response.result {
+                case .failure(let error):
+                    print(error)
+                    
+                    if let data = response.data, let responseString = String(data: data, encoding: .utf8) {
+                        print(responseString)
+                    }
+                case .success( _):
+                    if let data = response.data, let responseString = String(data: data, encoding: .utf8) {
+                        print(user)
+                        print(responseString)
+                        do {
+                            if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [[String : Any]] {
+                                var options: Set<String> = []
+                                for option in json {
+                                    let diningHall = option["dining_hall"] as! String
+                                    options.insert(diningHall)
+                                }
+                                self.diningHallOptions.append(options)
+                                if self.diningHallOptions.count == usersPlusMe.count {
+                                    self.getIntersection()
+                                }
+                            }
+                        } catch _ as NSError {
+                            
+                        }
+                    }
+                }
+            }
+        }
+        
+    }
+    
+    func getIntersection() {
+        var intersect = diningHallOptions[0]
+        for user in diningHallOptions {
+            intersect = intersect.intersection(user)
+        }
+        self.pickerOptions = Array(intersect)
+        self.locationPicker.reloadAllComponents()
     }
 }
 

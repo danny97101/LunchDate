@@ -93,6 +93,8 @@ class MeController: UIViewController, UITableViewDelegate, UITableViewDataSource
                                         let alert = UIAlertController(title: "Update Successful", message: "User info was successfully updated.", preferredStyle: .alert)
                                         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                                         self.present(alert, animated: true)
+                                        defaults.set(username, forKey: "username")
+                                        defaults.set(name, forKey: "display_name")
                                     }
                                 }
                             }

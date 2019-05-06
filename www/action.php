@@ -147,5 +147,14 @@
                 echo json_encode($ret);
             }
             exit(0);
+        case 'getPotentialLocations':
+            $token = $_REQUEST["token"];
+            $user = db::getUserByToken($token);
+            if ($user != -1) {
+                $username = $_REQUEST["username"];
+                $ret = db::getPossibleDiningHalls($username);
+                echo json_encode($ret);
+            }
+            exit(0);
     }
 ?>
