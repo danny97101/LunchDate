@@ -33,8 +33,9 @@ class InvitationController: UIViewController, UITableViewDelegate, UITableViewDa
         let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
         
         if notification.name == UIResponder.keyboardWillHideNotification {
-            scrollView.contentInset = .zero
+            //scrollView.contentInset = .zero
             scrollHeight.constant = 0
+            scrollView.scrollToTop()
         } else {
 //            scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height - view.safeAreaInsets.bottom, right: 0)
             scrollHeight.constant = -keyboardViewEndFrame.height
@@ -50,7 +51,16 @@ class InvitationController: UIViewController, UITableViewDelegate, UITableViewDa
     var names: [String] = []
     var free: [[DateInterval]] = []
     var everybodyFree: [DateInterval] = []
-    
+//
+//    override func dismissKeyboard() {
+//        super.dismissKeyboard()
+//        //let bottomOffset = CGPoint(x: 0, y: 0);
+//        //scrollView.setContentOffset(bottomOffset, animated: true)
+//        scrollHeight.constant = 0
+//
+//        scrollView.scrollToTop()
+//
+//    }
     
     @IBOutlet weak var whoTable: UITableView!
     override func viewDidLoad() {
@@ -68,5 +78,28 @@ class InvitationController: UIViewController, UITableViewDelegate, UITableViewDa
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
         notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        scrollView.keyboardDismissMode = .interactive
     }
+}
+
+
+extension UIViewController {
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+}
+
+extension UIScrollView {
+    func scrollToTop() {
+        let desiredOffset = CGPoint(x: 0, y: -contentInset.top)
+        setContentOffset(desiredOffset, animated: true)
+    }
+    
+    
 }

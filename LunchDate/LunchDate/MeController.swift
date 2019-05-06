@@ -39,7 +39,7 @@ class MeController: UIViewController, UITableViewDelegate, UITableViewDataSource
         self.table.allowsMultipleSelection = true
         self.table.allowsMultipleSelectionDuringEditing = true
         self.table.register(CheckableTableViewCell.self, forCellReuseIdentifier: "customcell")
-
+        hideKeyboardWhenTappedAround()
         
     }
     
