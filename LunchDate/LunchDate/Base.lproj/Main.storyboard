@@ -716,6 +716,7 @@
                     </view>
                     <connections>
                         <outlet property="locationPicker" destination="ab4-ch-kCB" id="qET-W0-8RZ"/>
+                        <outlet property="messageView" destination="ahv-dF-85L" id="bDp-i0-2Om"/>
                         <outlet property="scrollHeight" destination="kNk-cv-nyF" id="IUr-Pt-rTG"/>
                         <outlet property="scrollView" destination="LNM-sd-r20" id="kvi-0Y-PGC"/>
                         <outlet property="textView" destination="ahv-dF-85L" id="4a0-F5-okj"/>

@@ -10,7 +10,8 @@ import Foundation
 import UIKit
 import Alamofire
 
-class InvitationController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIPickerViewDelegate, UIPickerViewDataSource {
+class InvitationController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIPickerViewDelegate, UIPickerViewDataSource, UITextViewDelegate, UIScrollViewDelegate {
+    @IBOutlet weak var messageView: UITextView!
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
@@ -49,13 +50,16 @@ class InvitationController: UIViewController, UITableViewDelegate, UITableViewDa
         if notification.name == UIResponder.keyboardWillHideNotification {
             //scrollView.contentInset = .zero
             scrollHeight.constant = 0
+            scrollView.contentSize = CGSize(width: scrollView.frame.width, height: scrollView.frame.height)
+
             scrollView.scrollToTop()
         } else {
 //            scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height - view.safeAreaInsets.bottom, right: 0)
             scrollHeight.constant = -keyboardViewEndFrame.height
-            let bottomOffset = CGPoint(x: 0, y: -(self.scrollView.contentSize.height - self.scrollView.bounds.size.height + self.scrollView.contentInset.bottom));
-            scrollView.setContentOffset(bottomOffset, animated: true)
-
+            scrollView.contentSize = CGSize(width: scrollView.frame.width, height: scrollView.frame.height)
+//            let bottomOffset = CGPoint(x: 0, y: -(self.scrollView.contentSize.height - self.scrollView.bounds.size.height + self.scrollView.contentInset.bottom));
+//            scrollView.setContentOffset(bottomOffset, animated: true)
+            scrollView.scrollToBottom()
         }
         
 //        scrollView.scrollIndicatorInsets = scrollView.contentInset
@@ -79,6 +83,20 @@ class InvitationController: UIViewController, UITableViewDelegate, UITableViewDa
 //
 //    }
     
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == UIColor.lightGray {
+            textView.text = nil
+            textView.textColor = UIColor.black
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = "Enter your message!"
+            textView.textColor = UIColor.lightGray
+        }
+    }
+    
     @IBOutlet weak var whoTable: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -92,6 +110,10 @@ class InvitationController: UIViewController, UITableViewDelegate, UITableViewDa
         whoTable.dataSource = self
         locationPicker.delegate = self
         locationPicker.dataSource = self
+        messageView.delegate = self
+        scrollView.delegate = self
+        messageView.text = "Enter your message!"
+        messageView.textColor = UIColor.lightGray
         whoTable.reloadData()
         whoTableHeight.constant = whoTable.contentSize.height
         let notificationCenter = NotificationCenter.default
@@ -171,6 +193,11 @@ extension UIScrollView {
     func scrollToTop() {
         let desiredOffset = CGPoint(x: 0, y: -contentInset.top)
         setContentOffset(desiredOffset, animated: true)
+    }
+    
+    func scrollToBottom() {
+        let contentOffset = CGPoint(x: 0, y: contentSize.height - bounds.size.height)
+        self.setContentOffset(contentOffset, animated: true)
     }
     
     

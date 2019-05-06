@@ -313,7 +313,7 @@
         }
         public static function getPossibleDiningHalls($username) {
             $mysqli = self::makeDBConnection();
-            if (!($stmt = $mysqli->prepare("select * from meal_option as MO where date_available=date_add(current_date, interval (CASE when CURRENT_TIME()-maketime(14,0,0)>0 then 1 else 0 end) day) and ( select COUNT(*) from allergen join user_to_allergen on user_to_allergen.allergen_id=allergen.id join user on user.id=user_to_allergen.user_id join meal_option_to_allergen on allergen.id=meal_option_to_allergen.allergen_id where meal_option_to_allergen.meal_option_id=MO.id and user.username=? and meal_option_to_allergen.active=1)=0;"))) {
+            if (!($stmt = $mysqli->prepare("select * from meal_option as MO where date_available=date_add(current_date, interval (CASE when CURRENT_TIME()-maketime(14,0,0)>0 then 1 else 0 end) day) and ( select COUNT(*) from allergen join user_to_allergen on user_to_allergen.allergen_id=allergen.id join user on user.id=user_to_allergen.user_id join meal_option_to_allergen on allergen.id=meal_option_to_allergen.allergen_id where meal_option_to_allergen.meal_option_id=MO.id and user.username=? and meal_option_to_allergen.active=1 and user_to_allergen.active=1)=0;"))) {
                 error_log("Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error);
             }
             if (!$stmt->bind_param("s", base64_encode($username))) {
