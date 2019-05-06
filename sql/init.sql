@@ -37,7 +37,7 @@ CREATE TABLE meal_option (
 
 CREATE TABLE date (
 	id int NOT NULL AUTO_INCREMENT,
-	date_date date NOT NULL,
+	date_date datetime NOT NULL,
 	PRIMARY KEY (id)
 );
 

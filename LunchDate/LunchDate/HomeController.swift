@@ -49,7 +49,7 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
             if endHour < 11 {
                 endHour += 12
             }
-            let startDate = Date(timeIntervalSince1970: Double(3600*begHour + 60*Int(begSplit[1])!))
+            let startDate = Date(timeIntervalSince1970: Double(3600*begHour + 60*Int(begSplit[1])!) + 1)
             let endDate = Date(timeIntervalSince1970: Double(3600*endHour + 60*Int(endSplit[1])!))
             let freeInterval = DateInterval(start: startDate, end: endDate)
             thisFreeList.append(freeInterval)
@@ -58,21 +58,45 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
         updateTable()
     }
     
+    var everybodyFree: [DateInterval] = []
+    
     func updateTable() {
         
-        if selectedNames.count == 0 {
-            self.goodNameList = nameList
-            self.goodUsernameList = usernameList
-            self.goodFreeList = freeList
-            self.dateTable.reloadData()
-            return
-        }
+//        if selectedNames.count == 0 {
+//            self.lunchButton.isHidden = true
+//            self.goodNameList = nameList
+//            self.goodUsernameList = usernameList
+//            self.goodFreeList = freeList
+//            self.dateTable.reloadData()
+//            self.dateTableHeight.constant = self.dateTable.contentSize.height
+//
+//            return
+//        }
         
-        
+        self.lunchButton.isHidden = false
         
         self.goodNameList = []
         self.goodUsernameList = []
         self.goodFreeList = []
+        
+        
+        everybodyFree = [DateInterval(start: Date(timeIntervalSince1970: Double(3600*11)), end: Date(timeIntervalSince1970: Double(3600*14)))]
+        
+        var selectedPlusMe = selectedFree
+        selectedPlusMe.append(meFree)
+        for intList in selectedPlusMe {
+            var newEverybodyFree: [DateInterval] = []
+
+            for int in intList {
+                for freeInt in everybodyFree {
+                    if let intersection = freeInt.intersection(with: int) {
+                        newEverybodyFree.append(intersection)
+                    }
+                }
+            }
+            everybodyFree = newEverybodyFree
+
+        }
         
         for i in 0..<nameList.count {
             let name = nameList[i]
@@ -81,8 +105,9 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
             let freeTime = freeList[i]
             let index = freeTime.index(freeTime.startIndex, offsetBy: 6)
             
+            
             let freeTimes = freeTime.suffix(from:index).split(separator:",")
-            var noOverlap = false
+            var overlap = false
             for time in freeTimes{
                 let tup = time.split(separator: "-")
                 let beg = tup[0]
@@ -97,28 +122,19 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 if endHour < 11 {
                     endHour += 12
                 }
-                let startDate = Date(timeIntervalSince1970: Double(3600*begHour + 60*Int(begSplit[1])!))
+                let startDate = Date(timeIntervalSince1970: Double(3600*begHour + 60*Int(begSplit[1])!) + 1)
                 let endDate = Date(timeIntervalSince1970: Double(3600*endHour + 60*Int(endSplit[1])!))
                 let freeInterval = DateInterval(start: startDate, end: endDate)
-                for intList in selectedFree {
-                    var overlap = false
-                    for int in intList {
-                        if freeInterval.intersects(int) {
-                            overlap = true
-                            break
-                        }
-                    }
-                    if !overlap {
-                        noOverlap = true
+                
+                for int in everybodyFree {
+                    if freeInterval.intersects(int) {
+                        overlap = true
                         break
                     }
                 }
-                if noOverlap {
-                    break
-                }
             }
             
-            if !noOverlap {
+            if overlap {
                 goodNameList.append(name)
                 goodUsernameList.append(username)
                 goodFreeList.append(freeTime)
@@ -130,6 +146,8 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 self.dateTable.selectRow(at: IndexPath(row: i, section: 0), animated: true, scrollPosition: .bottom)
             }
         }
+        self.dateTableHeight.constant = self.dateTable.contentSize.height
+
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
@@ -152,13 +170,28 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var goodNameList: [String] = []
     var goodUsernameList: [String] = []
     var goodFreeList: [String] = []
+    
+    var meFree: [DateInterval] = []
 
     
     @IBOutlet weak var dateTable: UITableView!
     @IBOutlet weak var dateTableHeight: NSLayoutConstraint!
+    @IBOutlet weak var lunchButton: UIButton!
+    
+    @IBAction func letsLunch(_ sender: Any) {
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let invitationController = storyBoard.instantiateViewController(withIdentifier: "pls") as! InvitationController
+        invitationController.usernames = selectedUserNames
+        invitationController.names = selectedNames
+        invitationController.free = selectedFree
+        invitationController.everybodyFree = everybodyFree
+        self.navigationController!.show(invitationController, sender: self)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        lunchButton.isHidden = true
+        
         dateTable.delegate = self
         dateTable.dataSource = self
         dateTable.allowsMultipleSelection = true
@@ -205,13 +238,40 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     startDate = dateFormatter.string(from: event.startDate)
                     endDate = dateFormatter.string(from: event.endDate)
                     if startDate != "11:00" {
-                        uploadString +=  startDate! + ","
+                        uploadString +=  startDate!
+                        if endDate != "14:00" {
+                            uploadString += ","
+                        }
                     }
-                    if endDate != "2:00" {
+                    if endDate != "14:00" {
                         uploadString += endDate! + "-"
                     }
                 }
-                uploadString += "2:00"
+                if endDate != nil && endDate != "14:00"{
+                    uploadString += "14:00"
+                }
+                let freeTimes = uploadString.split(separator:",")
+                var thisFreeList: [DateInterval] = []
+                for time in freeTimes{
+                    let tup = time.split(separator: "-")
+                    let beg = tup[0]
+                    let end = tup[1]
+                    let begSplit = beg.components(separatedBy: CharacterSet.decimalDigits.inverted)
+                    let endSplit = end.components(separatedBy: CharacterSet.decimalDigits.inverted)
+                    var begHour = Int(begSplit[0])!
+                    if begHour < 11 {
+                        begHour += 12
+                    }
+                    var endHour = Int(endSplit[0])!
+                    if endHour < 11 {
+                        endHour += 12
+                    }
+                    let startDate = Date(timeIntervalSince1970: Double(3600*begHour + 60*Int(begSplit[1])!) + 1)
+                    let endDate = Date(timeIntervalSince1970: Double(3600*endHour + 60*Int(endSplit[1])!))
+                    let freeInterval = DateInterval(start: startDate, end: endDate)
+                    thisFreeList.append(freeInterval)
+                }
+                meFree = thisFreeList
                 let defaults = UserDefaults.standard
                 let token = defaults.string(forKey: "token")
                 if token != nil {
@@ -231,6 +291,10 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        selectedFree = []
+        selectedNames = []
+        selectedUserNames = []
+        updateTable()
         let defaults = UserDefaults.standard
         let token = defaults.string(forKey: "token")
         let friendParam: Parameters = [
@@ -272,8 +336,7 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
                             self.goodNameList = self.nameList
                             self.goodUsernameList = self.usernameList
                             self.goodFreeList = self.freeList
-                            self.dateTable.reloadData()
-
+                            self.updateTable()
                             
                             if json.count == 0 {
                                 //self.noNewRequests.isHidden = false

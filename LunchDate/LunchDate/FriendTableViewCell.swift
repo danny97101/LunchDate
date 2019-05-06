@@ -14,6 +14,7 @@ import Alamofire
 class FriendTableViewCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var usernameLabel: UILabel!
+    @IBOutlet weak var removeButton: UIButton!
     @IBAction func remove(_ sender: Any) {
         var message = "Are you sure you want to remove "
         message += (nameLabel.text)!
