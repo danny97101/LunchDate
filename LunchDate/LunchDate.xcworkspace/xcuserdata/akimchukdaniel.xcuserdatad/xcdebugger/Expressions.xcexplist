@@ -3,7 +3,7 @@
    version = "1.0">
    <ContextStates>
       <ContextState
-         contextName = "MeController.tableView(_:cellForRowAt:):MeController.swift">
+         contextName = "closure #1 in HomeController.viewWillAppear(_:):HomeController.swift">
       </ContextState>
       <ContextState
          contextName = "CheckableTableViewCell.setSelected(_:animated:):MeController.swift">
@@ -28,6 +28,20 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "HomeController.tableView(_:didSelectRowAt:):HomeController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "MeController.tableView(_:cellForRowAt:):MeController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "WelcomeController.viewDidLoad():WelcomeController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "JSONSerialization.jsonObject(with: request.httpBody!) as [String: Any]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "closure #1 in CreateAccountController.createAccount(_:):CreateAccountController.swift">
          <PersistentStrings>
             <PersistentString
@@ -41,14 +55,6 @@
             </PersistentString>
             <PersistentString
                value = "navViewController.viewControllers">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "WelcomeController.viewDidLoad():WelcomeController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "JSONSerialization.jsonObject(with: request.httpBody!) as [String: Any]">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
