@@ -11,17 +11,26 @@ import UIKit
 import Alamofire
 
 class InvitationController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIPickerViewDelegate, UIPickerViewDataSource, UITextViewDelegate, UIScrollViewDelegate {
-    @IBOutlet weak var messageView: UITextView!
+    @IBOutlet weak var timePicker: UIPickerView!
+    //@IBOutlet weak var messageView: UITextView!
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return pickerOptions.count
+        if pickerView == locationPicker {
+            return pickerOptions.count
+        } else {
+            return timeOptions.count
+        }
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return pickerOptions[row]
+        if pickerView == locationPicker {
+            return pickerOptions[row]
+        } else {
+            return timeOptions[row]
+        }
     }
     
     @IBOutlet weak var scrollView: UIScrollView!
@@ -40,7 +49,7 @@ class InvitationController: UIViewController, UITableViewDelegate, UITableViewDa
     
     @IBOutlet weak var locationPicker: UIPickerView!
     @IBOutlet weak var scrollHeight: NSLayoutConstraint!
-    @IBOutlet weak var textView: UITextView!
+    //@IBOutlet weak var textView: UITextView!
     @objc func adjustForKeyboard(notification: Notification) {
         guard let keyboardValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
         
@@ -72,6 +81,8 @@ class InvitationController: UIViewController, UITableViewDelegate, UITableViewDa
     var diningHallOptions: [Set<String>] = []
     
     var pickerOptions: [String] = []
+    var timeOptions: [String] = []
+    var timeOptions24: [String] = []
 //
 //    override func dismissKeyboard() {
 //        super.dismissKeyboard()
@@ -83,19 +94,19 @@ class InvitationController: UIViewController, UITableViewDelegate, UITableViewDa
 //
 //    }
     
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.textColor == UIColor.lightGray {
-            textView.text = nil
-            textView.textColor = UIColor.black
-        }
-    }
-    
-    func textViewDidEndEditing(_ textView: UITextView) {
-        if textView.text.isEmpty {
-            textView.text = "Enter your message!"
-            textView.textColor = UIColor.lightGray
-        }
-    }
+//    func textViewDidBeginEditing(_ textView: UITextView) {
+//        if textView.textColor == UIColor.lightGray {
+//            textView.text = nil
+//            textView.textColor = UIColor.black
+//        }
+//    }
+//
+//    func textViewDidEndEditing(_ textView: UITextView) {
+//        if textView.text.isEmpty {
+//            textView.text = "Enter your message!"
+//            textView.textColor = UIColor.lightGray
+//        }
+//    }
     
     @IBOutlet weak var whoTable: UITableView!
     override func viewDidLoad() {
@@ -110,10 +121,12 @@ class InvitationController: UIViewController, UITableViewDelegate, UITableViewDa
         whoTable.dataSource = self
         locationPicker.delegate = self
         locationPicker.dataSource = self
-        messageView.delegate = self
+        //messageView.delegate = self
         scrollView.delegate = self
-        messageView.text = "Enter your message!"
-        messageView.textColor = UIColor.lightGray
+        timePicker.delegate = self
+        timePicker.dataSource = self
+        //messageView.text = "Enter your message!"
+        //messageView.textColor = UIColor.lightGray
         whoTable.reloadData()
         whoTableHeight.constant = whoTable.contentSize.height
         let notificationCenter = NotificationCenter.default
@@ -164,6 +177,34 @@ class InvitationController: UIViewController, UITableViewDelegate, UITableViewDa
             }
         }
         
+        let everyPossibleDate = [Date(timeIntervalSince1970: 3600*11), Date(timeIntervalSince1970: 3600*11+60*30), Date(timeIntervalSince1970: 3600*12), Date(timeIntervalSince1970: 3600*12+60*30), Date(timeIntervalSince1970: 3600*13), Date(timeIntervalSince1970: 3600*13+60*30)
+        ]
+        var days: Set<Date> = []
+        for interval in everybodyFree {
+            for day in everyPossibleDate {
+                if interval.contains(day) {
+                    days.insert(day)
+                }
+            }
+        }
+        let sorted = Array(days).sorted(by: { $0.compare($1) == .orderedAscending })
+        timeOptions = []
+        timeOptions24 = []
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "h:mm a"
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        let dateFormatter2 = DateFormatter()
+        dateFormatter2.dateFormat = "HH:mm:ss"
+        dateFormatter2.locale = Locale(identifier: "en_US_POSIX")
+        dateFormatter2.timeZone = TimeZone(secondsFromGMT: 0)
+        for time in sorted {
+            timeOptions.append(dateFormatter.string(from: time))
+            timeOptions24.append(dateFormatter2.string(from: time))
+        }
+        
+        timePicker.reloadAllComponents()
+        
     }
     
     func getIntersection() {
@@ -173,6 +214,32 @@ class InvitationController: UIViewController, UITableViewDelegate, UITableViewDa
         }
         self.pickerOptions = Array(intersect)
         self.locationPicker.reloadAllComponents()
+    }
+    @IBAction func letsLunch(_ sender: Any) {
+        let defaults = UserDefaults.standard
+        let token = defaults.string(forKey: "token")
+        let parameters: Parameters = [
+            "action": "letsLunch",
+            "token": token!,
+            "where": pickerOptions[locationPicker.selectedRow(inComponent: 0)],
+            "when": timeOptions24[timePicker.selectedRow(inComponent: 0)],
+            "who": usernames
+        ]
+
+        Alamofire.request(Config.host + "action.php", method: .post, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+            switch response.result {
+            case .failure(let error):
+                print(error)
+                
+                if let data = response.data, let responseString = String(data: data, encoding: .utf8) {
+                    print(responseString)
+                }
+            case .success( _):
+                if let data = response.data, let responseString = String(data: data, encoding: .utf8) {
+                    print(responseString)
+                }
+            }
+        }
     }
 }
 

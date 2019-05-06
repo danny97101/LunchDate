@@ -331,6 +331,52 @@
             }
             return $ret;
         }
+        
+        public static function sendInvite($user, $when, $where, $who) {
+            //MAKE DATE
+            $mysqli = self::makeDBConnection();
+            if (!($stmt = $mysqli->prepare("insert into date (date_date) values (timestamp(concat(date_format(date_add(current_date(), interval (CASE when CURRENT_TIME()-maketime(14,0,0)>0 then 1 else 0 end) day),'%Y-%m-%d'),?)))"))) {
+                error_log("Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error);
+            }
+            $newWhen = " " . $when;
+            if (!$stmt->bind_param("s", $newWhen)) {
+                error_log("Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error);
+            }
+            if (!$stmt->execute()) {
+                error_log("Execute failed: (" . $stmt->errno . ") " . $stmt->error);
+                return array();
+            }
+            $id = $mysqli->insert_id;
+            
+            //inviter
+            if (!($stmt = $mysqli->prepare("insert into user_to_date (user_id, date_id) values (?, ?)"))) {
+                error_log("Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error);
+            }
+            if (!$stmt->bind_param("dd", $user["id"], $id)) {
+                error_log("Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error);
+            }
+            if (!$stmt->execute()) {
+                error_log("Execute failed: (" . $stmt->errno . ") " . $stmt->error);
+                return array();
+            }
+            
+            //invitees
+            
+            foreach ($who as $invitee) {
+            
+                if (!($stmt = $mysqli->prepare("insert into user_to_date (user_id, date_id, active) values ((select id from user where username=?), ?, 0)"))) {
+                    error_log("Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error);
+                }
+                if (!$stmt->bind_param("sd", base64_encode($invitee), $id)) {
+                    error_log("Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error);
+                }
+                if (!$stmt->execute()) {
+                    error_log("Execute failed: (" . $stmt->errno . ") " . $stmt->error);
+                    return array();
+                }
+            }
+            
+        }
 
 
     }

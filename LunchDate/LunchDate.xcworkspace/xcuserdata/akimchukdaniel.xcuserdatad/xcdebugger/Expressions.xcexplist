@@ -3,41 +3,25 @@
    version = "1.0">
    <ContextStates>
       <ContextState
-         contextName = "closure #1 in HomeController.viewWillAppear(_:):HomeController.swift">
+         contextName = "InvitationController.viewDidLoad():InvitationController.swift">
       </ContextState>
       <ContextState
-         contextName = "CheckableTableViewCell.setSelected(_:animated:):MeController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "self.accessoryType">
-            </PersistentString>
-         </PersistentStrings>
+         contextName = "HomeController.tableView(_:didDeselectRowAt:):HomeController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "MeController.tableView(_:cellForRowAt:):MeController.swift">
       </ContextState>
       <ContextState
          contextName = "closure #1 in WelcomeController.viewDidLoad():WelcomeController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "json[&quot;user&quot;] as! Int">
+               value = "json[&quot;user&quot;] as? String">
             </PersistentString>
             <PersistentString
                value = "print(responseObject)">
             </PersistentString>
             <PersistentString
                value = "json[&quot;user&quot;]">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "HomeController.tableView(_:didSelectRowAt:):HomeController.swift">
-      </ContextState>
-      <ContextState
-         contextName = "MeController.tableView(_:cellForRowAt:):MeController.swift">
-      </ContextState>
-      <ContextState
-         contextName = "WelcomeController.viewDidLoad():WelcomeController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "JSONSerialization.jsonObject(with: request.httpBody!) as [String: Any]">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -59,7 +43,46 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "HomeController.viewDidLoad():HomeController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "event.startDate">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "CheckableTableViewCell.setSelected(_:animated:):MeController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.accessoryType">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "HomeController.tableView(_:didSelectRowAt:):HomeController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in HomeController.viewWillAppear(_:):HomeController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "InvitationController.tableView(_:numberOfRowsInSection:):InvitationController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "InvitationController.getIntersection():InvitationController.swift">
+      </ContextState>
+      <ContextState
          contextName = "MeController.tableView(_:numberOfRowsInSection:):MeController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "HomeController.updateTable():HomeController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "WelcomeController.viewDidLoad():WelcomeController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "JSONSerialization.jsonObject(with: request.httpBody!) as [String: Any]">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
    </ContextStates>
 </VariablesViewState>

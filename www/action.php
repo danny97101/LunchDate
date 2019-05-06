@@ -39,8 +39,14 @@
             $ret = array();
             $user = db::getUserByToken($token);
             $ret["user"] = array();
-            $ret["user"]["username"] = $user["username"];
-            $ret["user"]["display_name"] = $user["display_name"];
+            if ($user != -1) {
+                $ret["user"]["username"] = $user["username"];
+                $ret["user"]["display_name"] = $user["display_name"];
+                
+            } else {
+                $ret["user"] = -1;
+            }
+            error_log(json_encode($ret));
             echo json_encode($ret);
             exit(0);
         case 'getAllergens':
@@ -156,5 +162,14 @@
                 echo json_encode($ret);
             }
             exit(0);
+        case 'letsLunch':
+            $token = $_REQUEST["token"];
+            $user = db::getUserByToken($token);
+            if ($user != -1) {
+                $when = $_REQUEST["when"];
+                $where = $_REQUEST["where"];
+                $who = $_REQUEST["who"];
+                db::sendInvite($user, $when, $where, $who);
+            }
     }
 ?>

@@ -49,8 +49,8 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
             if endHour < 11 {
                 endHour += 12
             }
-            let startDate = Date(timeIntervalSince1970: Double(3600*begHour + 60*Int(begSplit[1])!) + 1)
-            let endDate = Date(timeIntervalSince1970: Double(3600*endHour + 60*Int(endSplit[1])!))
+            let startDate = Date(timeIntervalSince1970: Double(3600*begHour + 60*Int(begSplit[1])!))
+            let endDate = Date(timeIntervalSince1970: Double(3600*endHour + 60*Int(endSplit[1])!)-1)
             let freeInterval = DateInterval(start: startDate, end: endDate)
             thisFreeList.append(freeInterval)
         }
@@ -62,8 +62,8 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func updateTable() {
         
-//        if selectedNames.count == 0 {
-//            self.lunchButton.isHidden = true
+        if selectedNames.count == 0 {
+            self.lunchButton.isHidden = true
 //            self.goodNameList = nameList
 //            self.goodUsernameList = usernameList
 //            self.goodFreeList = freeList
@@ -71,9 +71,9 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //            self.dateTableHeight.constant = self.dateTable.contentSize.height
 //
 //            return
-//        }
-        
-        self.lunchButton.isHidden = false
+        } else {
+            self.lunchButton.isHidden = false
+        }
         
         self.goodNameList = []
         self.goodUsernameList = []
@@ -122,8 +122,8 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 if endHour < 11 {
                     endHour += 12
                 }
-                let startDate = Date(timeIntervalSince1970: Double(3600*begHour + 60*Int(begSplit[1])!) + 1)
-                let endDate = Date(timeIntervalSince1970: Double(3600*endHour + 60*Int(endSplit[1])!))
+                let startDate = Date(timeIntervalSince1970: Double(3600*begHour + 60*Int(begSplit[1])!))
+                let endDate = Date(timeIntervalSince1970: Double(3600*endHour + 60*Int(endSplit[1])!)-1)
                 let freeInterval = DateInterval(start: startDate, end: endDate)
                 
                 for int in everybodyFree {
@@ -221,7 +221,8 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
             predicate = store.predicateForEvents(withStart: aNow, end: aTomorrow, calendars: nil)
         }
         
-        
+        do {
+            
         var events: [EKEvent]? = nil
         if let aPredicate = predicate {
             events = store.events(matching: aPredicate)
@@ -229,7 +230,12 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 let dateFormatter = DateFormatter()
                 var uploadString = ""
                 dateFormatter.dateFormat = "HH:mm"
-                if (aEvents.count > 0 && dateFormatter.string(from: aEvents[0].startDate) != "11:00") || aEvents.count==0 {
+  
+                let todayAt11 = day
+                let todayAt2 = end
+
+                
+                if (aEvents.count > 0 && (aEvents[0].startDate)! > todayAt11!) || aEvents.count==0 {
                     uploadString += "11:00-"
                 }
                 var startDate: String? = nil
@@ -237,13 +243,13 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 for event in aEvents {
                     startDate = dateFormatter.string(from: event.startDate)
                     endDate = dateFormatter.string(from: event.endDate)
-                    if startDate != "11:00" {
+                    if (event.startDate)! > todayAt11! {
                         uploadString +=  startDate!
-                        if endDate != "14:00" {
+                        if (event.endDate)! < todayAt2! {
                             uploadString += ","
                         }
                     }
-                    if endDate != "14:00" {
+                    if (event.endDate)! < todayAt2! {
                         uploadString += endDate! + "-"
                     }
                 }
@@ -266,8 +272,8 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     if endHour < 11 {
                         endHour += 12
                     }
-                    let startDate = Date(timeIntervalSince1970: Double(3600*begHour + 60*Int(begSplit[1])!) + 1)
-                    let endDate = Date(timeIntervalSince1970: Double(3600*endHour + 60*Int(endSplit[1])!))
+                    let startDate = Date(timeIntervalSince1970: Double(3600*begHour + 60*Int(begSplit[1])!))
+                    let endDate = Date(timeIntervalSince1970: Double(3600*endHour + 60*Int(endSplit[1])!)-1)
                     let freeInterval = DateInterval(start: startDate, end: endDate)
                     thisFreeList.append(freeInterval)
                 }
@@ -286,6 +292,9 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     }
                 }
             }
+        }
+        } catch _ as NSException {
+            print("no calendar bitch")
         }
     }
     
