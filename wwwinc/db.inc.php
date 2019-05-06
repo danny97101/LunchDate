@@ -258,10 +258,31 @@
         
         public static function getFriendsForUser($user) {
             $mysqli = self::makeDBConnection();
-            if (!($stmt = $mysqli->prepare("select user_to_user.id, user.display_name, user.username from user join user_to_user on user.id=user_to_user.user1_id where user_to_user.status='friends' and user_to_user.user2_id=?"))) {
+            if (!($stmt = $mysqli->prepare("select user_to_user.id as id, user.display_name, user.username from user join user_to_user on user.id=user_to_user.user1_id where user_to_user.status='friends' and user_to_user.user2_id=? UNION ALL select user_to_user.id as id, user.display_name, user.username from user join user_to_user on user.id=user_to_user.user2_id where user_to_user.status='friends' and user_to_user.user1_id=? order by id asc"))) {
                 error_log("Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error);
             }
-            if (!$stmt->bind_param("d", $user["id"])) {
+            if (!$stmt->bind_param("dd", $user["id"], $user["id"])) {
+                error_log("Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error);
+            }
+            if (!$stmt->execute()) {
+                error_log("Execute failed: (" . $stmt->errno . ") " . $stmt->error);
+                return array();
+            }
+            $result = $stmt->get_result();
+            $ret = array();
+            while ($row = $result->fetch_array(MYSQLI_ASSOC))
+            {
+                $ret[] = $row;
+            }
+            return $ret;
+        }
+        
+        public static function getPotentialDates($user) {
+            $mysqli = self::makeDBConnection();
+            if (!($stmt = $mysqli->prepare("select user.username, user.display_name, user.available_times, user.last_updated from user join user_to_user on user.id=user_to_user.user1_id where user_to_user.user2_id=? and user_to_user.status='friends' and (CASE when CURRENT_TIME()-maketime(14,0,0)>0 then last_updated - timestamp(concat(date_format(current_date(),'%Y-%m-%d'),' 14:00:00'))>0 else last_updated - timestamp(concat(date_format(date_sub(current_date(), interval 1 day),'%Y-%m-%d'),' 14:00:00'))>0 end) UNION ALL select user.username, user.display_name, user.available_times, user.last_updated from user join user_to_user on user.id=user_to_user.user2_id where user_to_user.user1_id=? and user_to_user.status='friends' and (CASE when CURRENT_TIME()-maketime(14,0,0)>0 then last_updated - timestamp(concat(date_format(current_date(),'%Y-%m-%d'),' 14:00:00'))>0 else last_updated - timestamp(concat(date_format(date_sub(current_date(), interval 1 day),'%Y-%m-%d'),' 14:00:00'))>0 end)"))) {
+                error_log("Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error);
+            }
+            if (!$stmt->bind_param("dd", $user["id"], $user["id"])) {
                 error_log("Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error);
             }
             if (!$stmt->execute()) {
@@ -297,3 +318,7 @@
 
 
 ?>
+
+
+
+

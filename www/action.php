@@ -139,5 +139,13 @@
             $ret["success"] = 0;
             echo json_encode($ret);
             exit(0);
+        case 'getPotentialDates':
+            $token = $_REQUEST["token"];
+            $user = db::getUserByToken($token);
+            if ($user != -1) {
+                $ret = db::getPotentialDates($user);
+                echo json_encode($ret);
+            }
+            exit(0);
     }
 ?>
