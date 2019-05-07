@@ -44,11 +44,11 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
             cell.usernameLabel.text = dateUsernameList[indexPath.item]
             cell.removeButton.isHidden = true
             if dateActiveList[indexPath.item] == 2 {
-                cell.statusPic.image = UIImage(named: "logo-0")
+                cell.statusPic.image = UIImage(named: "logo-no")
             } else if dateActiveList[indexPath.item] == 1 {
-                cell.statusPic.image = UIImage(named: "logo-1")
+                cell.statusPic.image = UIImage(named: "logo-yes")
             } else {
-                cell.statusPic.image = UIImage(named: "logo-2")
+                cell.statusPic.image = UIImage(named: "logo-maybe")
             }
             return cell
         }
