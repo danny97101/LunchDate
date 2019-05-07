@@ -143,15 +143,19 @@ def allergy_soup(url):
     except:
         lunch_end = len(to_array)
     smaller = to_array[lunch_start:lunch_end]
+    ret = []
     for x in range(0, len(smaller)):
         if "fooditemname" in smaller[x]:
             hold = smaller[x][smaller[x].find('>')+1:len(smaller[x])-4]
             if "&amp;" in hold:
                 hold2 = hold.replace("amp;", '')
                 smaller[x] = hold2
-            #     print(hold2)
-            # else:
-            #     print(hold)
+                # print(hold2)
+                ret.append(hold2.strip())
+            else:
+                smaller[x] = hold
+                # print(hold)
+                ret.append(hold.strip())
         elif "alt=" in smaller[x]:
             check = smaller[x][smaller[x].find('"')+1:find_2nd(smaller[x], '"')]
             if "contains" in check:
@@ -159,7 +163,8 @@ def allergy_soup(url):
             else:
                 smaller[x] = smaller[x][smaller[x].find('"')+1:find_2nd(smaller[x], '"')]
             # print(smaller[x])
-    return smaller
+            ret.append(smaller[x].strip())
+    return ret
 
 
 def scrape_soup(dh, url):
@@ -186,12 +191,20 @@ def display(scraped):
 def two_dimension(to_change, compare):
     to_return = []
     for i in range(0, len(to_change)):
-        print(to_change[i])
-        if to_change[i] not in compare:
+        if to_change[i] in compare:
             to_return.append([])
         else:
-            to_return[len(to_return)-1].append(to_change[i])
+            to_return[-1].append(to_change[i])
     return to_return
+
+
+def print_ready(to_print):
+    print("\n\n")
+    for i in range(0, len(to_print)):
+        test = ""
+        for j in range(0, len(to_print[i])):
+            test += to_print[i][j] + "\t"
+        print(test)
 
 
 def main():
@@ -208,10 +221,13 @@ def main():
         print("\n\n/////ALLERGENS FOR TERRACES/////")
         try:
             terr_allergen = allergy_soup("https://menus.sodexomyway.com/BiteMenu/Menu?menuId=364&locationId=10001002&whereami=https://ithaca.sodexomyway.com/dining-near-me/terrace-dining-hall")
-        except:
+        except Exception as err:
+            print(err)
             pass
         terr_ready = two_dimension(terr_allergen, terraces)
-    except:
+        print_ready(terr_ready)
+    except Exception as err:
+        print(err)
         print("Terraces did not respond")
     # ------------------------------------------------------------------------------------------------------------------
     # ------------------------------------------------------------------------------------------------------------------
@@ -221,9 +237,13 @@ def main():
         print("\n\n/////ALLERGENS FOR CAMPUS CENTER/////")
         try:
             cc_allergen = allergy_soup("https://menus.sodexomyway.com/BiteMenu/Menu?menuId=362&locationId=10001001&whereami=https://ithaca.sodexomyway.com/dining-near-me/campus-center-dining-hall")
-        except:
+        except Exception as err:
+            print(err)
             pass
-    except:
+        cc_ready = two_dimension(cc_allergen, campus_center)
+        print_ready(cc_ready)
+    except Exception as err:
+        print(err)
         print("Campus Center did not respond")
     # ------------------------------------------------------------------------------------------------------------------
     # ------------------------------------------------------------------------------------------------------------------
@@ -233,9 +253,13 @@ def main():
         print("\n\n/////ALLERGENS FOR TOWERS/////")
         try:
             towers_allergen = allergy_soup("https://menus.sodexomyway.com/BiteMenu/Menu?menuId=1356&locationId=10001003&whereami=http://ithaca.sodexomyway.com/dining-near-me/towers-dining-hall")
-        except:
+        except Exception as err:
+            print(err)
             pass
-    except:
+        towers_ready = two_dimension(towers_allergen, towers)
+        print_ready(towers_ready)
+    except Exception as err:
+        print(err)
         print("Towers did not respond")
 
 
