@@ -17,6 +17,7 @@ class LoginController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        usernameField.becomeFirstResponder()
     }
     
     @IBAction func username(_ sender: Any) {
@@ -80,9 +81,11 @@ class LoginController: UIViewController {
                         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                         //let tabViewController = storyBoard.instantiateViewController(withIdentifier: "tab") as! MainTabController
                         let navViewController = storyBoard.instantiateViewController(withIdentifier: "prettyboi") as! PrettyBoi
-                        let tabViewController = navViewController.viewControllers[0] as! MainTabController
-                        tabViewController.selectedIndex = 0
-                        self.present(navViewController, animated: false, completion: nil)
+                        //let tabViewController = navViewController.viewControllers[0] as! MainTabController
+                        self.present(navViewController, animated: true, completion: {
+                            self.navigationController?.popToRootViewController(animated: false)
+                        })
+                        
                     }
                 }
                 

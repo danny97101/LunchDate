@@ -145,9 +145,11 @@ class CreateAccountController: UIViewController {
                                 //let tabViewController = storyBoard.instantiateViewController(withIdentifier: "tab") as! MainTabController
                                 let navViewController = storyBoard.instantiateViewController(withIdentifier: "prettyboi") as! PrettyBoi
                                 let tabViewController = navViewController.viewControllers[0] as! MainTabController
-                                tabViewController.selectedIndex = 3
-                                self.present(navViewController, animated: false, completion: nil)
-                            }
+                                //tabViewController.selectedIndex = 3
+                                tabViewController.startIndex = 3
+                                self.present(navViewController, animated: true, completion: {
+                                    self.navigationController?.popToRootViewController(animated: false)
+                                })                            }
                         }
                         
                     }

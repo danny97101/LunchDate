@@ -16,6 +16,8 @@
 		7942C3E4226D12C600C7E2F1 /* MainTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7942C3E3226D12C600C7E2F1 /* MainTabController.swift */; };
 		7947542D227A4DC4006F0C70 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7947542B227A4A90006F0C70 /* LoginController.swift */; };
 		7947542F227A5084006F0C70 /* PrettyBoi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7947542E227A5084006F0C70 /* PrettyBoi.swift */; };
+		796528D022820C34002F2647 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796528CF22820C34002F2647 /* NotificationController.swift */; };
+		796528D222820FF0002F2647 /* DateRequestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796528D122820FF0002F2647 /* DateRequestCell.swift */; };
 		79A9AC3F227F7E1F00214063 /* FriendTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A9AC3E227F7E1F00214063 /* FriendTableViewCell.swift */; };
 		79DDCAED227CD2F2006A8199 /* FriendRequestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DDCAEC227CD2F1006A8199 /* FriendRequestTableViewCell.swift */; };
 		79ECEBEF228086F000DF87EB /* DateTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79ECEBEE228086F000DF87EB /* DateTableViewCell.swift */; };
@@ -41,6 +43,8 @@
 		7942C3E3226D12C600C7E2F1 /* MainTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabController.swift; sourceTree = "<group>"; };
 		7947542B227A4A90006F0C70 /* LoginController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		7947542E227A5084006F0C70 /* PrettyBoi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrettyBoi.swift; sourceTree = "<group>"; };
+		796528CF22820C34002F2647 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
+		796528D122820FF0002F2647 /* DateRequestCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateRequestCell.swift; sourceTree = "<group>"; };
 		79A9AC3E227F7E1F00214063 /* FriendTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendTableViewCell.swift; sourceTree = "<group>"; };
 		79DDCAEC227CD2F1006A8199 /* FriendRequestTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendRequestTableViewCell.swift; sourceTree = "<group>"; };
 		79ECEBEE228086F000DF87EB /* DateTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTableViewCell.swift; sourceTree = "<group>"; };
@@ -131,6 +135,8 @@
 				79A9AC3E227F7E1F00214063 /* FriendTableViewCell.swift */,
 				79ECEBEE228086F000DF87EB /* DateTableViewCell.swift */,
 				79ECEBF02280A1B400DF87EB /* InvitationController.swift */,
+				796528CF22820C34002F2647 /* NotificationController.swift */,
+				796528D122820FF0002F2647 /* DateRequestCell.swift */,
 			);
 			path = LunchDate;
 			sourceTree = "<group>";
@@ -258,6 +264,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7947542F227A5084006F0C70 /* PrettyBoi.swift in Sources */,
+				796528D222820FF0002F2647 /* DateRequestCell.swift in Sources */,
 				7947542D227A4DC4006F0C70 /* LoginController.swift in Sources */,
 				DE9F51E02260E940006AC89D /* HomeController.swift in Sources */,
 				DE9F51DC2260E940006AC89D /* AppDelegate.swift in Sources */,
@@ -265,6 +272,7 @@
 				DEC430102277D6DA00FE8DA5 /* SearchController.swift in Sources */,
 				79DDCAED227CD2F2006A8199 /* FriendRequestTableViewCell.swift in Sources */,
 				79ECEBEF228086F000DF87EB /* DateTableViewCell.swift in Sources */,
+				796528D022820C34002F2647 /* NotificationController.swift in Sources */,
 				79ECEBF12280A1B400DF87EB /* InvitationController.swift in Sources */,
 				79A9AC3F227F7E1F00214063 /* FriendTableViewCell.swift in Sources */,
 				791AB523226CFB1600022681 /* Config.swift in Sources */,

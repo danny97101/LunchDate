@@ -227,19 +227,17 @@ class InvitationController: UIViewController, UITableViewDelegate, UITableViewDa
         ]
 
         Alamofire.request(Config.host + "action.php", method: .post, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
-            switch response.result {
-            case .failure(let error):
-                print(error)
-                
-                if let data = response.data, let responseString = String(data: data, encoding: .utf8) {
-                    print(responseString)
-                }
-            case .success( _):
-                if let data = response.data, let responseString = String(data: data, encoding: .utf8) {
-                    print(responseString)
-                }
-            }
+//            let tab = self.navigationController?.viewControllers[0] as! MainTabController
+//            let home = tab.selectedViewController as! HomeController
+//            home.loadDate()
+            self.navigationController?.popViewController(animated: true)
         }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        let nav = self.navigationController
+        let tab = nav?.viewControllers[0] as! MainTabController
+        tab.selectedViewController?.viewWillAppear(true)
     }
 }
 

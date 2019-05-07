@@ -145,6 +145,21 @@
             $ret["success"] = 0;
             echo json_encode($ret);
             exit(0);
+        case 'addFriend':
+            $token = $_REQUEST["token"];
+            $user = db::getUserByToken($token);
+            if ($user != -1) {
+                $friend = $_REQUEST["username"];
+                db::addFriend($user, $friend);
+                $ret = array();
+                $ret["success"] = 1;
+                echo json_encode($ret);
+                exit(0);
+            }
+            $ret = array();
+            $ret["success"] = 0;
+            echo json_encode($ret);
+            exit(0);
         case 'getPotentialDates':
             $token = $_REQUEST["token"];
             $user = db::getUserByToken($token);
@@ -171,5 +186,40 @@
                 $who = $_REQUEST["who"];
                 db::sendInvite($user, $when, $where, $who);
             }
+            exit(0);
+        case 'getCurrentDate':
+            $token = $_REQUEST["token"];
+            $user = db::getUserByToken($token);
+            if ($user != -1) {
+                echo json_encode(db::getCurrentDate($user));
+            }
+            exit(0);
+        case 'searchUsers':
+            $token = $_REQUEST["token"];
+            $user = db::getUserByToken($token);
+            if ($user != -1) {
+                $search = $_REQUEST["search"];
+                echo json_encode(db::searchUsers($user, $search));
+            }
+            exit(0);
+        case 'getDateRequests':
+            $token = $_REQUEST["token"];
+            $user = db::getUserByToken($token);
+            if ($user != -1) {
+                echo json_encode(db::getDateRequests($user));
+            }
+            exit(0);
+        case 'respondToDateRequest':
+            $token = $_REQUEST["token"];
+            $user = db::getUserByToken($token);
+            if ($user != -1) {
+                $userToUserID = $_REQUEST["request_id"];
+                $response = $_REQUEST["response"];
+                db::respondToDateRequest($userToUserID, $response, $user);
+            }
+            $ret = array();
+            $ret["success"] = 1;
+            echo json_encode($ret);
+            exit(0);
     }
 ?>

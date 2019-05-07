@@ -11,51 +11,84 @@ import EventKit
 import Alamofire
 
 class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return goodNameList.count
-    }
+    @IBOutlet weak var noFriendsLabel: UILabel!
+    @IBOutlet weak var whenLabel: UILabel!
+    @IBOutlet weak var whereLabel: UILabel!
+    @IBOutlet weak var whoHeight: NSLayoutConstraint!
+    @IBOutlet weak var whoTableView: UITableView!
     
+    var dateNameList: [String] = []
+    var dateUsernameList: [String] = []
+    var dateActiveList: [Int] = []
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if tableView == dateTable {
+            return goodNameList.count
+        } else {
+            return dateNameList.count
+        }
+    }
+    @IBOutlet weak var pickDatesScrollView: UIScrollView!
+    
+    @IBOutlet weak var showDatesScrollView: UIScrollView!
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "date", for: indexPath) as! DateTableViewCell
-        cell.nameLabel.text = goodNameList[indexPath.item]
-        cell.usernameLabel.text = goodUsernameList[indexPath.item]
-        cell.freeLabel.text = goodFreeList[indexPath.item]
-        return cell
+        if tableView == dateTable {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "date", for: indexPath) as! DateTableViewCell
+            cell.nameLabel.text = goodNameList[indexPath.item]
+            cell.usernameLabel.text = goodUsernameList[indexPath.item]
+            cell.freeLabel.text = goodFreeList[indexPath.item]
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "friend", for: indexPath) as! FriendTableViewCell
+            cell.nameLabel.text = dateNameList[indexPath.item]
+            cell.usernameLabel.text = dateUsernameList[indexPath.item]
+            cell.removeButton.isHidden = true
+            if dateActiveList[indexPath.item] == 2 {
+                cell.statusPic.image = UIImage(named: "logo-0")
+            } else if dateActiveList[indexPath.item] == 1 {
+                cell.statusPic.image = UIImage(named: "logo-1")
+            } else {
+                cell.statusPic.image = UIImage(named: "logo-2")
+            }
+            return cell
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let name = goodNameList[indexPath.item]
-        let username = goodUsernameList[indexPath.item]
-        
-        selectedNames.append(name)
-        selectedUserNames.append(username)
-        
-        let freeTime = goodFreeList[indexPath.item]
-        let index = freeTime.index(freeTime.startIndex, offsetBy: 6)
+        if tableView == dateTable {
+            let name = goodNameList[indexPath.item]
+            let username = goodUsernameList[indexPath.item]
+            
+            selectedNames.append(name)
+            selectedUserNames.append(username)
+            
+            let freeTime = goodFreeList[indexPath.item]
+            let index = freeTime.index(freeTime.startIndex, offsetBy: 6)
 
-        let freeTimes = freeTime.suffix(from:index).split(separator:",")
-        var thisFreeList: [DateInterval] = []
-        for time in freeTimes{
-            let tup = time.split(separator: "-")
-            let beg = tup[0]
-            let end = tup[1]
-            let begSplit = beg.components(separatedBy: CharacterSet.decimalDigits.inverted)
-            let endSplit = end.components(separatedBy: CharacterSet.decimalDigits.inverted)
-            var begHour = Int(begSplit[0])!
-            if begHour < 11 {
-                begHour += 12
+            let freeTimes = freeTime.suffix(from:index).split(separator:",")
+            var thisFreeList: [DateInterval] = []
+            for time in freeTimes{
+                let tup = time.split(separator: "-")
+                let beg = tup[0]
+                let end = tup[1]
+                let begSplit = beg.components(separatedBy: CharacterSet.decimalDigits.inverted)
+                let endSplit = end.components(separatedBy: CharacterSet.decimalDigits.inverted)
+                var begHour = Int(begSplit[0])!
+                if begHour < 11 {
+                    begHour += 12
+                }
+                var endHour = Int(endSplit[0])!
+                if endHour < 11 {
+                    endHour += 12
+                }
+                let startDate = Date(timeIntervalSince1970: Double(3600*begHour + 60*Int(begSplit[1])!))
+                let endDate = Date(timeIntervalSince1970: Double(3600*endHour + 60*Int(endSplit[1])!)-1)
+                let freeInterval = DateInterval(start: startDate, end: endDate)
+                thisFreeList.append(freeInterval)
             }
-            var endHour = Int(endSplit[0])!
-            if endHour < 11 {
-                endHour += 12
-            }
-            let startDate = Date(timeIntervalSince1970: Double(3600*begHour + 60*Int(begSplit[1])!))
-            let endDate = Date(timeIntervalSince1970: Double(3600*endHour + 60*Int(endSplit[1])!)-1)
-            let freeInterval = DateInterval(start: startDate, end: endDate)
-            thisFreeList.append(freeInterval)
+            selectedFree.append(thisFreeList)
+            updateTable()
         }
-        selectedFree.append(thisFreeList)
-        updateTable()
     }
     
     var everybodyFree: [DateInterval] = []
@@ -188,14 +221,23 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.navigationController!.show(invitationController, sender: self)
     }
     
+    func loadDate() {
+        print("jsdkls")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         lunchButton.isHidden = true
+        pickDatesScrollView.isHidden = true
+        showDatesScrollView.isHidden = true
         
         dateTable.delegate = self
         dateTable.dataSource = self
         dateTable.allowsMultipleSelection = true
         dateTable.allowsMultipleSelectionDuringEditing = true
+        
+        whoTableView.delegate = self
+        whoTableView.dataSource = self
         
         let store = EKEventStore()
         
@@ -253,7 +295,7 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
                         uploadString += endDate! + "-"
                     }
                 }
-                if endDate != nil && endDate != "14:00"{
+                if (endDate != nil && endDate != "14:00") || aEvents.count==0{
                     uploadString += "14:00"
                 }
                 let freeTimes = uploadString.split(separator:",")
@@ -300,12 +342,104 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        print("APPEARING")
+        
+        //TODO: CHECK IF THEY HAVE A DATE
+        let defaults = UserDefaults.standard
+        let token = defaults.string(forKey: "token")
+        
+        let parameters: Parameters = [
+            "action": "getCurrentDate",
+            "token": token!
+        ]
+        
+        Alamofire.request(Config.host + "action.php", method: .post, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+            //            let tab = self.navigationController?.viewControllers[0] as! MainTabController
+            //            let home = tab.selectedViewController as! HomeController
+            //            home.loadDate()
+            if let data = response.data, let responseString =  String(data: data, encoding: .utf8){
+                print(responseString)
+                do {
+                    if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [[String : Any]] {
+                        if json.count > 0 {
+                            self.pickDatesScrollView.isHidden = true
+                            self.showDatesScrollView.isHidden = false
+                            let dateStr = json[0]["date_date"] as! String
+                            let dateFormatter = DateFormatter()
+                            dateFormatter.timeZone = .current
+                            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                            let date = dateFormatter.date(from: dateStr)
+                            let betterFormatter = DateFormatter()
+                            betterFormatter.timeZone = .current
+                            betterFormatter.dateFormat = "h:mm a"
+                            betterFormatter.amSymbol = "AM"
+                            betterFormatter.pmSymbol = "PM"
+                            let myCalendar = Calendar(identifier: .gregorian)
+                            let weekDay = myCalendar.component(.weekday, from: date!)
+                            var dayStr = ""
+                            switch weekDay {
+                            case 1:
+                                dayStr = "Sunday "
+                                break
+                            case 2:
+                                dayStr = "Monday "
+                                break
+                            case 3:
+                                dayStr = "Tuesday "
+                                break
+                            case 4:
+                                dayStr = "Wednesday "
+                                break
+                            case 5:
+                                dayStr = "Thursday "
+                                break
+                            case 6:
+                                dayStr = "Friday "
+                                break
+                            default:
+                                dayStr = "Saturday "
+                            }
+                            
+                            self.whenLabel.text = dayStr + betterFormatter.string(from: date!)
+                            self.whereLabel.text = json[0]["dining_hall"] as? String
+                            self.dateUsernameList=[]
+                            self.dateNameList=[]
+                            self.dateActiveList = []
+                            for participant in json {
+                                self.dateUsernameList.append((participant["username"] as! String).base64Decoded()!)
+                                self.dateNameList.append((participant["display_name"] as! String).base64Decoded()!)
+                                self.dateActiveList.append(participant["active"] as! Int)
+                            }
+                            self.whoTableView.reloadData()
+                            self.whoHeight.constant = self.whoTableView.contentSize.height
+                        } else {
+                            self.pickDatesScrollView.isHidden = false
+                            self.showDatesScrollView.isHidden = true
+                        }
+                    }
+                } catch _ as NSError {
+                    
+                }
+            }
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         selectedFree = []
         selectedNames = []
         selectedUserNames = []
         updateTable()
-        let defaults = UserDefaults.standard
-        let token = defaults.string(forKey: "token")
+
         let friendParam: Parameters = [
             "action" : "getPotentialDates",
             "token" : token!
@@ -348,11 +482,11 @@ class HomeController: UIViewController, UITableViewDelegate, UITableViewDataSour
                             self.updateTable()
                             
                             if json.count == 0 {
-                                //self.noNewRequests.isHidden = false
+                                self.noFriendsLabel.isHidden = false
 //                                self.friendTableViewHeight.constant = 129
                                 self.dateTableHeight.constant = 129
                             } else {
-                                //self.noNewRequests.isHidden = true
+                                self.noFriendsLabel.isHidden = true
 //                                self.friendTableViewHeight.constant = self.friendTableView.contentSize.height
                                 self.dateTableHeight.constant = self.dateTable.contentSize.height
                             }

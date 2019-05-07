@@ -76,7 +76,17 @@ class WelcomeController: UIViewController {
                                                 if json["user"] as? Int != -1 {
                                                     let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                                                     let tabViewController = storyBoard.instantiateViewController(withIdentifier: "prettyboi") as! PrettyBoi
-                                                    self.present(tabViewController, animated: false, completion: nil)
+                                                    //let mainTab = tabViewController.viewControllers[0] as! MainTabController
+                                                    //mainTab.selectedIndex = 0
+                                                    //self.present(tabViewController, animated: false, completion: nil)
+//                                                    let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+//                                                    //let tabViewController = storyBoard.instantiateViewController(withIdentifier: "tab") as! MainTabController
+//                                                    let navViewController = storyBoard.instantiateViewController(withIdentifier: "prettyboi") as! PrettyBoi
+//                                                    let tabViewController = navViewController.viewControllers[0] as! MainTabController
+//                                                    tabViewController.selectedIndex = 0
+                                                    self.present(tabViewController, animated: true, completion: {
+                                                        self.navigationController?.popToRootViewController(animated: false)
+                                                    })
                                                 }
                                             }
                                         } catch _ as NSError {

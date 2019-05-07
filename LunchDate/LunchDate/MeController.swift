@@ -15,6 +15,13 @@ class MeController: UIViewController, UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return pickerData.count
     }
+    @IBAction func logOut(_ sender: Any) {
+        let defaults = UserDefaults.standard
+        defaults.removeObject(forKey: "token")
+        defaults.removeObject(forKey: "username")
+        defaults.removeObject(forKey: "display_name")
+        self.dismiss(animated: true, completion: nil)
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "customcell", for: indexPath) as! CheckableTableViewCell

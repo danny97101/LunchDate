@@ -38,6 +38,7 @@ CREATE TABLE meal_option (
 CREATE TABLE date (
 	id int NOT NULL AUTO_INCREMENT,
 	date_date datetime NOT NULL,
+	dining_hall ENUM ('Towers', 'Terraces', 'Campus Center') NOT NULL,
 	PRIMARY KEY (id)
 );
 
