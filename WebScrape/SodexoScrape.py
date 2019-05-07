@@ -119,7 +119,10 @@ def format_array(dh, array):
             array.remove('Daily Dish')
         except:
             print("Daily Dish did not exist")
-
+        try:
+            array.remove('Desserts')
+        except:
+            print("Desserts did not exist")
         try:
             array.remove('Ignite')
         except:
@@ -134,10 +137,9 @@ def format_array(dh, array):
     return array
 
 
-def allergy_soup(url):
+def allergy_soup(day, url):
     html = urlopen(url).read().decode('UTF-8')
     soup = BeautifulSoup(html, 'html.parser')
-    day = datetime.datetime.today().day
     text = soup.find_all('div', id="menuid-" + str(day) + "-day")[-1].contents
     test = str(text)
     iso = test[7:len(test)-7]
@@ -172,10 +174,9 @@ def allergy_soup(url):
     return ret
 
 
-def scrape_soup(dh, url):
+def scrape_soup(dh, day, url):
     html = urlopen(url).read().decode('UTF-8')
     soup = BeautifulSoup(html, 'html.parser')
-    day = datetime.datetime.today().day
     menu = soup.find_all('div', id="menuid-" + str(day) + "-day")[-1].get_text("|", strip=True)
     spliced = menu.split("|")
     lunch_start = spliced.index('LUNCH')
@@ -212,7 +213,7 @@ def print_ready(to_print):
         print(test)
 
 
-def main():
+def getWeb(day):
     terraces = []
     campus_center = []
     towers = []
@@ -220,12 +221,13 @@ def main():
     cc_allergen = []
     towers_allergen = []
 
+
     print("----------terraces----------")
     try:
-        terraces = scrape_soup(0, "https://menus.sodexomyway.com/BiteMenu/Menu?menuId=364&locationId=10001002&whereami=https://ithaca.sodexomyway.com/dining-near-me/terrace-dining-hall")
+        terraces = scrape_soup(0, day, "https://menus.sodexomyway.com/BiteMenu/Menu?menuId=364&locationId=10001002&whereami=https://ithaca.sodexomyway.com/dining-near-me/terrace-dining-hall")
         print("\n\n/////ALLERGENS FOR TERRACES/////")
         try:
-            terr_allergen = allergy_soup("https://menus.sodexomyway.com/BiteMenu/Menu?menuId=364&locationId=10001002&whereami=https://ithaca.sodexomyway.com/dining-near-me/terrace-dining-hall")
+            terr_allergen = allergy_soup(day, "https://menus.sodexomyway.com/BiteMenu/Menu?menuId=364&locationId=10001002&whereami=https://ithaca.sodexomyway.com/dining-near-me/terrace-dining-hall")
         except Exception as err:
             print(err)
             pass
@@ -238,10 +240,10 @@ def main():
     # ------------------------------------------------------------------------------------------------------------------
     print("\n----------campus center----------")
     try:
-        campus_center = scrape_soup(1, "https://menus.sodexomyway.com/BiteMenu/Menu?menuId=362&locationId=10001001&whereami=https://ithaca.sodexomyway.com/dining-near-me/campus-center-dining-hall")
+        campus_center = scrape_soup(1, day, "https://menus.sodexomyway.com/BiteMenu/Menu?menuId=362&locationId=10001001&whereami=https://ithaca.sodexomyway.com/dining-near-me/campus-center-dining-hall")
         print("\n\n/////ALLERGENS FOR CAMPUS CENTER/////")
         try:
-            cc_allergen = allergy_soup("https://menus.sodexomyway.com/BiteMenu/Menu?menuId=362&locationId=10001001&whereami=https://ithaca.sodexomyway.com/dining-near-me/campus-center-dining-hall")
+            cc_allergen = allergy_soup(day, "https://menus.sodexomyway.com/BiteMenu/Menu?menuId=362&locationId=10001001&whereami=https://ithaca.sodexomyway.com/dining-near-me/campus-center-dining-hall")
         except Exception as err:
             print(err)
             pass
@@ -254,74 +256,82 @@ def main():
     # ------------------------------------------------------------------------------------------------------------------
     print("\n----------towers----------")
     try:
-        towers = scrape_soup(2, "https://menus.sodexomyway.com/BiteMenu/Menu?menuId=1356&locationId=10001003&whereami=http://ithaca.sodexomyway.com/dining-near-me/towers-dining-hall")
+        towers = scrape_soup(2, day, "https://menus.sodexomyway.com/BiteMenu/Menu?menuId=1356&locationId=10001003&whereami=http://ithaca.sodexomyway.com/dining-near-me/towers-dining-hall")
         print("\n\n/////ALLERGENS FOR TOWERS/////")
         try:
-            towers_allergen = allergy_soup("https://menus.sodexomyway.com/BiteMenu/Menu?menuId=1356&locationId=10001003&whereami=http://ithaca.sodexomyway.com/dining-near-me/towers-dining-hall")
+            towers_allergen = allergy_soup(day, "https://menus.sodexomyway.com/BiteMenu/Menu?menuId=1356&locationId=10001003&whereami=http://ithaca.sodexomyway.com/dining-near-me/towers-dining-hall")
         except Exception as err:
             print(err)
-            pass
         towers_ready = two_dimension(towers_allergen, towers)
         print_ready(towers_ready)
     except Exception as err:
         print(err)
         print("Towers did not respond")
 
-    if len(terraces) != 0 or len(campus_center) != 0 or len(towers) != 0:
-        # initialize database
-        print("\n\n Opening database...")
-        db = pymysql.connect(host="localhost", port=3306, user="tmarotta", passwd="nalgene21", db="LunchDate")
-
-        # create cursor to call things
-        cursor = db.cursor()
-
-        print("Entering Allergens...")
-        allergy_loop = ["vegetarian", "vegan", "mindful", "milk", "tree nuts", "wheat", "soy", "egg", "peanut", "fish",
-                        "shellfish"]
-        for i in range(len(allergy_loop)):
-            try:
-                sql = """INSERT INTO allergen (name) VALUES (%s)"""
-                data = allergy_loop[i]
-                cursor.execute(sql, data)
-            except (pymysql.Error, pymysql.Warning) as e:
-                print(e)
+    # if len(terraces) != 0 or len(campus_center) != 0 or len(towers) != 0:
+    #     # initialize database
+    #     print("\n\n Opening database...")
+    #     db = pymysql.connect(host="localhost", port=3306, user="tmarotta", passwd="nalgene21", db="LunchDate")
+    #
+    #     # create cursor to call things
+    #     cursor = db.cursor()
+    #
+    #     print("Entering Allergens...")
+    #     allergy_loop = ["vegetarian", "vegan", "mindful", "milk", "tree nuts", "wheat", "soy", "egg", "peanut", "fish",
+    #                     "shellfish"]
+    #     for i in range(len(allergy_loop)):
+    #         try:
+    #             sql = """INSERT INTO allergen (name) VALUES (%s)"""
+    #             data = allergy_loop[i]
+    #             cursor.execute(sql, data)
+    #         except (pymysql.Error, pymysql.Warning) as e:
+    #             print(e)
 
         # fill in data
         # dining hall string, food_item, calories as integer, date object?
-        print("Entering Food Items...")
-        hall_names = ["Towers", "Terraces", "Campus Center"]
-        hall_menu = [towers, terraces, campus_center]
-        hall_allergen = [towers_ready, terr_ready, cc_ready]
-        day = datetime.datetime.now()
-        for i in range(len(hall_names)):
-            item = 0
-            # for every meal/calorie pair
-            for j in range(0, len(hall_menu[i]), 2):
-                try:
-                    sql = """INSERT INTO meal_option (dining_hall, food_item, calories, date_available) VALUES (%s, %s, %s, %s)"""
-                    cursor.execute(sql, (hall_names[i], hall_menu[i][j], int(hall_menu[i][j+1]), day.date().isoformat()))
-                except (pymysql.Error, pymysql.Warning) as e:
-                    print(e)
-                # allergen table
-                if hall_menu[i][j] == "Greek Pita Pizza":
-                    print("HERE")
-                for k in range(len(hall_allergen[i][item])):
+        # print("Entering Food Items...")
+        # hall_names = ["Towers", "Terraces", "Campus Center"]
+        # hall_menu = [towers, terraces, campus_center]
+        # hall_allergen = [towers_ready, terr_ready, cc_ready]
+        # for i in range(len(hall_names)):
+        #     item = 0
+        #     # for every meal/calorie pair
+        #     for j in range(0, len(hall_menu[i]), 2):
+        #         try:
+        #             sql = """INSERT INTO meal_option (dining_hall, food_item, calories, date_available) VALUES (%s, %s, %s, %s)"""
+        #             cursor.execute(sql, (hall_names[i], hall_menu[i][j], int(hall_menu[i][j+1]), day.date().isoformat()))
+        #         except (pymysql.Error, pymysql.Warning) as e:
+        #             print(e)
+        #         # allergen table
+        #         if hall_menu[i][j] == "Greek Pita Pizza":
+        #             print("HERE")
+        #         for k in range(len(hall_allergen[i][item])):
+        #
+        #             try:
+        #                 sql = """INSERT INTO meal_option_to_allergen (meal_option_id, allergen_id) VALUES ((SELECT id FROM meal_option WHERE dining_hall = %s AND food_item = %s AND date_available = %s ), (SELECT id FROM allergen WHERE name=%s))"""
+        #                 data = hall_allergen[i][item][k]
+        #                 cursor.execute(sql, (hall_menu[i], hall_menu[i][j], day.date().isoformat(), data))
+        #             except (pymysql.Error, pymysql.Warning) as e:
+        #                 print(e)
+        #         item += 1
+        #
+        # print("Closing...")
+        # db.commit()
+        # db.close()
+        # print("Done.")
+    # else:
+    #     print("No dining halls were available")
 
-                    try:
-                        sql = """INSERT INTO meal_option_to_allergen (meal_option_id, allergen_id) VALUES ((SELECT id FROM meal_option WHERE dining_hall = %s AND food_item = %s AND date_available = %s ), (SELECT id FROM allergen WHERE name=%s))"""
-                        data = hall_allergen[i][item][k]
-                        cursor.execute(sql, (hall_menu[i], hall_menu[i][j], day.date().isoformat(), data))
-                    except (pymysql.Error, pymysql.Warning) as e:
-                        print(e)
-                item += 1
-
-        print("Closing...")
-        db.commit()
-        db.close()
-        print("Done.")
-        print(len(towers)/2 + len(terraces)/2 + len(campus_center)/2)
+def main():
+    today = datetime.datetime.today().day
+    tomorrow = datetime.datetime.today().day + datetime.timedelta(days=1).days
+    print("TODAY: " + str(today))
+    getWeb(today)
+    if tomorrow is not "Saturday" or "Sunday":
+        print("\n\n\nTOMORROW: " + str(tomorrow))
+        getWeb(tomorrow)
     else:
-        print("No dining halls were available")
+        print("Tomorrow is a weekend, scraping is not supported")
 
 
 main()
