@@ -213,7 +213,7 @@ def print_ready(to_print):
         print(test)
 
 
-def getWeb(day):
+def getWeb(day, dayKind):
     terraces = []
     campus_center = []
     towers = []
@@ -268,68 +268,73 @@ def getWeb(day):
         print(err)
         print("Towers did not respond")
 
-    # if len(terraces) != 0 or len(campus_center) != 0 or len(towers) != 0:
-    #     # initialize database
-    #     print("\n\n Opening database...")
-    #     db = pymysql.connect(host="localhost", port=3306, user="tmarotta", passwd="nalgene21", db="LunchDate")
-    #
-    #     # create cursor to call things
-    #     cursor = db.cursor()
-    #
-    #     print("Entering Allergens...")
-    #     allergy_loop = ["vegetarian", "vegan", "mindful", "milk", "tree nuts", "wheat", "soy", "egg", "peanut", "fish",
-    #                     "shellfish"]
-    #     for i in range(len(allergy_loop)):
-    #         try:
-    #             sql = """INSERT INTO allergen (name) VALUES (%s)"""
-    #             data = allergy_loop[i]
-    #             cursor.execute(sql, data)
-    #         except (pymysql.Error, pymysql.Warning) as e:
-    #             print(e)
+    if len(terraces) != 0 or len(campus_center) != 0 or len(towers) != 0:
+        # initialize database
+        print("\n\n Opening database...")
+        db = pymysql.connect(host="localhost", port=3306, user="tmarotta", passwd="nalgene21", db="LunchDate")
 
-        # fill in data
-        # dining hall string, food_item, calories as integer, date object?
-        # print("Entering Food Items...")
-        # hall_names = ["Towers", "Terraces", "Campus Center"]
-        # hall_menu = [towers, terraces, campus_center]
-        # hall_allergen = [towers_ready, terr_ready, cc_ready]
-        # for i in range(len(hall_names)):
-        #     item = 0
-        #     # for every meal/calorie pair
-        #     for j in range(0, len(hall_menu[i]), 2):
-        #         try:
-        #             sql = """INSERT INTO meal_option (dining_hall, food_item, calories, date_available) VALUES (%s, %s, %s, %s)"""
-        #             cursor.execute(sql, (hall_names[i], hall_menu[i][j], int(hall_menu[i][j+1]), day.date().isoformat()))
-        #         except (pymysql.Error, pymysql.Warning) as e:
-        #             print(e)
-        #         # allergen table
-        #         if hall_menu[i][j] == "Greek Pita Pizza":
-        #             print("HERE")
-        #         for k in range(len(hall_allergen[i][item])):
-        #
-        #             try:
-        #                 sql = """INSERT INTO meal_option_to_allergen (meal_option_id, allergen_id) VALUES ((SELECT id FROM meal_option WHERE dining_hall = %s AND food_item = %s AND date_available = %s ), (SELECT id FROM allergen WHERE name=%s))"""
-        #                 data = hall_allergen[i][item][k]
-        #                 cursor.execute(sql, (hall_menu[i], hall_menu[i][j], day.date().isoformat(), data))
-        #             except (pymysql.Error, pymysql.Warning) as e:
-        #                 print(e)
-        #         item += 1
-        #
-        # print("Closing...")
-        # db.commit()
-        # db.close()
-        # print("Done.")
-    # else:
-    #     print("No dining halls were available")
+        # create cursor to call things
+        cursor = db.cursor()
+
+        print("Entering Allergens...")
+        allergy_loop = ["vegetarian", "vegan", "mindful", "milk", "tree nuts", "wheat", "soy", "egg", "peanut", "fish",
+                        "shellfish"]
+        for i in range(len(allergy_loop)):
+            try:
+                sql = """INSERT INTO allergen (name) VALUES (%s)"""
+                data = allergy_loop[i]
+                cursor.execute(sql, data)
+            except (pymysql.Error, pymysql.Warning) as e:
+                print(e)
+
+        if dayKind == "today":
+            new_day = datetime.datetime.today()
+        else:
+            new_day = datetime.datetime.today() + datetime.timedelta(days=1)
+
+        #fill in data
+        #dining hall string, food_item, calories as integer, date object?
+        print("Entering Food Items...")
+        hall_names = ["Towers", "Terraces", "Campus Center"]
+        hall_menu = [towers, terraces, campus_center]
+        hall_allergen = [towers_ready, terr_ready, cc_ready]
+        for i in range(len(hall_names)):
+            item = 0
+            # for every meal/calorie pair
+            for j in range(0, len(hall_menu[i]), 2):
+                try:
+                    sql = """INSERT INTO meal_option (dining_hall, food_item, calories, date_available) VALUES (%s, %s, %s, %s)"""
+                    cursor.execute(sql, (hall_names[i], hall_menu[i][j], int(hall_menu[i][j+1]), new_day.isoformat()))
+                except (pymysql.Error, pymysql.Warning) as e:
+                    print(e)
+                # allergen table
+                if hall_menu[i][j] == "Greek Pita Pizza":
+                    print("HERE")
+                for k in range(len(hall_allergen[i][item])):
+
+                    try:
+                        sql = """INSERT INTO meal_option_to_allergen (meal_option_id, allergen_id) VALUES ((SELECT id FROM meal_option WHERE dining_hall = %s AND food_item = %s AND date_available = %s ), (SELECT id FROM allergen WHERE name=%s))"""
+                        data = hall_allergen[i][item][k]
+                        cursor.execute(sql, (hall_menu[i], hall_menu[i][j], new_day.isoformat(), data))
+                    except (pymysql.Error, pymysql.Warning) as e:
+                        print(e)
+                item += 1
+
+        print("Closing...")
+        db.commit()
+        db.close()
+        print("Done.")
+    else:
+        print("No dining halls were available")
 
 def main():
     today = datetime.datetime.today().day
     tomorrow = datetime.datetime.today().day + datetime.timedelta(days=1).days
     print("TODAY: " + str(today))
-    getWeb(today)
+    getWeb(today, "today")
     if tomorrow is not "Saturday" or "Sunday":
         print("\n\n\nTOMORROW: " + str(tomorrow))
-        getWeb(tomorrow)
+        getWeb(tomorrow, "tomorrow")
     else:
         print("Tomorrow is a weekend, scraping is not supported")
 

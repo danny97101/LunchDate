@@ -9,5 +9,5 @@
 import Foundation
 
 struct Config {
-    static let host = "http://172.20.10.4:8888/"
+    static let host = "http://127.0.0.1:8888/"
 }
